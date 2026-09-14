@@ -1,3 +1,16 @@
+research/
+└── srpc/
+    ├── srpcKernel.js       ← protected SRPC
+    ├── srpcRules.js        ← protected SRPC
+    ├── srpcCompute.js      ← protected SRPC
+    ├── srpcTest.html       ← protected SRPC
+    │
+    └── domain/
+        ├── ScenarioData.js
+        ├── Rules.js
+        ├── ScenarioCompute.js
+        └── ScenarioTest.html
+
 # Sextant-SRPC-Technology-Domain-Simulator-Factory
 Sextant-SRPC-Technology-Domain-Simulator-Factory
 
