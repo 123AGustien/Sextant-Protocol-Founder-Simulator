@@ -574,6 +574,10 @@ The Factory is part of the broader Sextant Protocol resilience and decision-supp
 
 It is designed to demonstrate how a common resilience foundation can be applied across different technology and industry domains without creating unrelated one-off simulator architectures.
 
+Edge Optimization & Deployment Validation Cockpit
+https://123agustien.github.io/Sextant-Protocol-Cockpit-Pro-Edge-Optimization-Validation/
+
+
 # Sextant Protocol™
 
 ## SRPC Technology Domain Simulator Factory
