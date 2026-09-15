@@ -1,0 +1,94 @@
+name: Sextant Protocol Founder Simulator Validation
+
+'on':
+workflow_dispatch:
+push:
+branches:
+- domain/grid-module-dpa
+paths:
+- index.html
+- research/srpc/**
+- .github/workflows/create-domain-simulator.yml
+
+jobs:
+validate:
+runs-on: ubuntu-latest
+
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+
+  - name: Validate protected SRPC foundation
+    run: |
+      test -f research/srpc/srpcKernel.js
+      test -f research/srpc/srpcRules.js
+      test -f research/srpc/srpcCompute.js
+      test -f research/srpc/srpcTest.html
+
+  - name: Validate Grid Module architecture
+    run: |
+      test -f research/srpc/domain/grid/ScenarioData.js
+      test -f research/srpc/domain/grid/Rules.js
+      test -f research/srpc/domain/grid/ScenarioRules.js
+      test -f research/srpc/domain/grid/RuleEngine.js
+      test -f research/srpc/domain/grid/Scenario.js
+      test -f research/srpc/domain/grid/ScenarioRuleEngine.js
+      test -f research/srpc/domain/grid/ScenarioEngine.js
+      test -f research/srpc/domain/grid/ScenarioCompute.js
+      test -f research/srpc/domain/grid/DomainIntegration.js
+      test -f research/srpc/domain/grid/Module.js
+      test -f research/srpc/domain/grid/GridSimulatorUI.js
+      test -f research/srpc/domain/grid/ScenarioTest.html
+
+  - name: Validate Founder Simulator
+    run: |
+      test -f index.html
+      grep -q "Sextant Protocol" index.html
+
+  - name: Validate Grid cockpit references
+    run: |
+      grep -q "research/srpc/domain/grid/ScenarioData.js" index.html
+      grep -q "research/srpc/domain/grid/Rules.js" index.html
+      grep -q "research/srpc/domain/grid/ScenarioRules.js" index.html
+      grep -q "research/srpc/domain/grid/RuleEngine.js" index.html
+      grep -q "research/srpc/domain/grid/Scenario.js" index.html
+      grep -q "research/srpc/domain/grid/ScenarioRuleEngine.js" index.html
+      grep -q "research/srpc/domain/grid/ScenarioEngine.js" index.html
+      grep -q "research/srpc/domain/grid/ScenarioCompute.js" index.html
+      grep -q "research/srpc/domain/grid/DomainIntegration.js" index.html
+      grep -q "research/srpc/domain/grid/Module.js" index.html
+      grep -q "research/srpc/domain/grid/GridSimulatorUI.js" index.html
+
+  - name: Validate safety boundary
+    run: |
+      grep -q "Backend connection: FALSE" index.html
+      grep -q "External connection: FALSE" index.html
+      grep -q "Physical execution: FALSE" index.html
+      grep -q "Autonomous actuation: FALSE" index.html
+      grep -q "Human authorization required: TRUE" index.html
+
+  - name: Validate Golden Rule
+    run: |
+      grep -q "OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE" index.html
+
+  - name: Validation summary
+    run: |
+      echo "========================================"
+      echo "Sextant Protocol Founder Simulator"
+      echo "Grid Technology Domain"
+      echo "========================================"
+      echo "Protected SRPC foundation: PASS"
+      echo "Grid Module architecture: PASS"
+      echo "Founder Simulator: PASS"
+      echo "Grid cockpit references: PASS"
+      echo "Safety boundary: PASS"
+      echo "Golden Rule: PASS"
+      echo "Research mode: LOCAL DETERMINISTIC"
+      echo "Backend: FALSE"
+      echo "External connection: FALSE"
+      echo "Physical execution: FALSE"
+      echo "Autonomous actuation: FALSE"
+      echo "Human decision authority: REQUIRED"
+      echo "========================================"
+      echo "FOUNDER SIMULATOR VALIDATION: PASS"
+      echo "========================================"
