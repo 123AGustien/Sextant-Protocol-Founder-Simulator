@@ -94,7 +94,7 @@ jobs:
           set -e
 
           cat > "research/srpc/${{ inputs.domain_id }}/ScenarioData.js" <<'EOF'
-"use strict";
+"use strict"
 
 /*
  * Sextant Protocol™
