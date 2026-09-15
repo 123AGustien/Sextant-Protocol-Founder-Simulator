@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Sextant Protocol SRPC Technology Domain Simulator Factory — deterministic research cockpit."
+    >
+
+    <title>
+        Sextant Protocol™ — SRPC Technology Domain Simulator Factory
+    </title>
+
+    <style>
+
+        :root {
+            --bg: #071018;
+            --panel: #0d1b26;
+            --panel-2: #102432;
+            --border: #284454;
+            --text: #e8f0f4;
+            --muted: #9db1bc;
+            --accent: #65c7e8;
+            --success: #73d69a;
+            --warning: #e7c66b;
+            --danger: #e78383;
+            --button: #173747;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            line-height: 1.5;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 24px 18px;
+            background: #09151e;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 8px 0 6px;
+            font-size: clamp(1.55rem, 5vw, 2.4rem);
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        main {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            padding: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .panel.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        h3 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status.ready {
+            color: var(--success);
+        }
+
+        .status.warning {
+            color: var(--warning);
+        }
+
+        .status.error {
+            color: var(--danger);
+        }
+
+        .status.neutral {
+            color: var(--muted);
+        }
+
+        .value {
+            font-size: 1.05rem;
+            font-weight: bold;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .architecture {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .architecture span {
+            padding: 8px 10px;
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .arrow {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        button {
+            border: 1px solid var(--border);
+            background: var(--button);
+            color: var(--text);
+            padding: 10px 14px;
+            margin: 4px 4px 4px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            border-color: var(--accent);
+        }
+
+        button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        pre {
+            margin: 0;
+            padding: 14px;
+            overflow-x: auto;
+            background: #061019;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            color: #cfe2ea;
+            font-size: 0.78rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .decision-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+        }
+
+        .decision-grid button {
+            width: 100%;
+            min-height: 48px;
+            margin: 0;
+        }
+
+        .notice {
+            border-left: 3px solid var(--accent);
+            padding: 10px 12px;
+            background: #0a1821;
+            color: var(--muted);
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 18px 30px;
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .metric {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 12px;
+        }
+
+        .metric-label {
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .metric-value {
+            margin-top: 3px;
+            font-size: 1.05rem;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="eyebrow">
+            Sextant Protocol™ — SRPC
+        </div>
+
+        <h1>
+            Technology Domain Simulator Factory
+        </h1>
+
+        <p class="subtitle">
+            Deterministic local research cockpit —
+            human-authorized, auditable and safety-bounded.
+        </p>
+
+    </div>
+
+</header>
+
+<main>
+
+    <!-- =========================================================
+         FACTORY STATUS
+         ========================================================= -->
+
+    <section class="grid">
+
+        <div class="panel">
+
+            <h2>Factory Status</h2>
+
+            <p>
+                <span
+                    id="factoryStatus"
+                    class="status neutral"
+                >
+                    INITIALIZING
+                </span>
+            </p>
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Architecture
+                </div>
+
+                <div
+                    id="architectureStatus"
+                    class="metric-value"
+                >
+                    SRPC Technology Domain
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Safety Boundary</h2>
+
+            <div class="two-column">
+
+                <div class="metric">
+                    <div class="metric-label">
+                        Backend
+                    </div>
+                    <div class="metric-value">
+                        DISABLED
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        External Connection
+                    </div>
+                    <div class="metric-value">
+                        DISABLED
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        Physical Execution
+                    </div>
+                    <div class="metric-value">
+                        DISABLED
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        Autonomous Actuation
+                    </div>
+                    <div class="metric-value">
+                        DISABLED
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         DOMAIN INFORMATION
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Technology Domain</h2>
+
+        <div class="two-column">
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Domain Name
+                </div>
+
+                <div
+                    id="domainName"
+                    class="metric-value"
+                >
+                    Not loaded
+                </div>
+
+            </div>
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Domain ID
+                </div>
+
+                <div
+                    id="domainId"
+                    class="metric-value"
+                >
+                    Not loaded
+                </div>
+
+            </div>
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Source
+                </div>
+
+                <div
+                    id="domainSource"
+                    class="metric-value"
+                >
+                    LOCAL_SIMULATION
+                </div>
+
+            </div>
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Purpose
+                </div>
+
+                <div
+                    id="domainPurpose"
+                    class="metric-value"
+                >
+                    SRPC_TECHNOLOGY_DOMAIN_RESEARCH
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         ARCHITECTURE
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>SRPC Processing Architecture</h2>
+
+        <div class="architecture">
+
+            <span>ENVIRONMENT</span>
+            <span class="arrow">→</span>
+
+            <span>AVAILABLE INPUTS</span>
+            <span class="arrow">→</span>
+
+            <span>DATA</span>
+            <span class="arrow">→</span>
+
+            <span>PRIMARY AI</span>
+            <span class="arrow">→</span>
+
+            <span>SECONDARY AI</span>
+            <span class="arrow">→</span>
+
+            <span>STABILIZER</span>
+            <span class="arrow">→</span>
+
+            <span>CAPTAIN AI LENA</span>
+            <span class="arrow">→</span>
+
+            <span>HUMAN DECISION AUTHORITY</span>
+            <span class="arrow">→</span>
+
+            <span>SIMULATED ACTION</span>
+            <span class="arrow">→</span>
+
+            <span>AUDIT / UPDATE</span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         GOLDEN RULE
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Golden Rule Lifecycle</h2>
+
+        <div class="architecture">
+
+            <span>OBSERVE</span>
+            <span class="arrow">→</span>
+
+            <span>VERIFY</span>
+            <span class="arrow">→</span>
+
+            <span>ASSESS</span>
+            <span class="arrow">→</span>
+
+            <span>DECIDE</span>
+            <span class="arrow">→</span>
+
+            <span>ACT</span>
+            <span class="arrow">→</span>
+
+            <span>UPDATE</span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SYSTEM STATE
+         ========================================================= -->
+
+    <section class="panel">
+
+        <h2>System State</h2>
+
+        <pre id="systemState">
+Not loaded.
+        </pre>
+
+    </section>
+
+
+    <!-- =========================================================
+         DOMAIN / INTEGRATION STATUS
+         ========================================================= -->
+
+    <section class="panel">
+
+        <h2>Domain Integration</h2>
+
+        <pre id="integrationStatus">
+Waiting for DomainIntegration.js.
+        </pre>
+
+        <button
+            id="refreshStatusButton"
+            type="button"
+        >
+            Refresh Status
+        </button>
+
+    </section>
+
+
+    <!-- =========================================================
+         SCENARIO EXECUTION
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Scenario Processing</h2>
+
+        <div class="notice">
+
+            This cockpit requests processing from the
+            domain architecture. It does not contain or replace
+            domain rules, algorithms or protected SRPC compute logic.
+
+        </div>
+
+        <br>
+
+        <button
+            id="runScenarioButton"
+            type="button"
+        >
+            Run Deterministic Scenario
+        </button>
+
+        <button
+            id="determinismButton"
+            type="button"
+        >
+            Test Determinism
+        </button>
+
+        <br><br>
+
+        <pre id="scenarioOutput">
+Scenario not executed.
+        </pre>
+
+    </section>
+
+
+    <!-- =========================================================
+         CAPTAIN AI LENA
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Captain AI Lena Decision-Support Layer</h2>
+
+        <div class="notice">
+
+            Captain AI Lena provides decision support only.
+            Human Decision Authority remains final.
+
+        </div>
+
+        <br>
+
+        <div class="two-column">
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    AI Layer
+                </div>
+
+                <div class="metric-value">
+                    CAPTAIN AI LENA
+                </div>
+
+            </div>
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Human Authority
+                </div>
+
+                <div class="metric-value">
+                    REQUIRED
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         HUMAN DECISION AUTHORITY
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Human Decision Authority</h2>
+
+        <p class="muted">
+            No simulated action may be treated as autonomous
+            execution. The final decision belongs to the authorized
+            human decision-maker.
+        </p>
+
+        <div class="decision-grid">
+
+            <button
+                type="button"
+                data-decision="AUTHORIZE"
+            >
+                AUTHORIZE
+            </button>
+
+            <button
+                type="button"
+                data-decision="MAINTAIN_SAFE_STATE"
+            >
+                MAINTAIN SAFE STATE
+            </button>
+
+            <button
+                type="button"
+                data-decision="REQUEST_DIAGNOSTICS"
+            >
+                REQUEST DIAGNOSTICS
+            </button>
+
+            <button
+                type="button"
+                data-decision="ABORT"
+            >
+                ABORT
+            </button>
+
+            <button
+                type="button"
+                data-decision="ESCALATE"
+            >
+                ESCALATE
+            </button>
+
+        </div>
+
+        <br>
+
+        <pre id="decisionOutput">
+No human decision recorded.
+        </pre>
+
+    </section>
+
+
+    <!-- =========================================================
+         AUDIT
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Audit Record</h2>
+
+        <pre id="auditOutput">
+Waiting for scenario processing and human decision.
+        </pre>
+
+    </section>
+
+
+    <!-- =========================================================
+         FACTORY GOVERNANCE
+         ========================================================= -->
+
+    <section class="panel full">
+
+        <h2>Research Governance</h2>
+
+        <div class="notice">
+
+            <strong>LOCAL DETERMINISTIC SIMULATED RESEARCH</strong>
+
+            <br><br>
+
+            No backend connection.<br>
+            No uncontrolled external execution.<br>
+            No physical execution.<br>
+            No autonomous actuation.<br>
+            Human Decision Authority remains final.<br>
+            Protected SRPC foundation remains authoritative.
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    Sextant Protocol™ — SRPC Technology Domain Simulator Factory
+
+    <br>
+
+    Research architecture only.
+    Deterministic local simulation.
+    Human-authorized and auditable.
+
+</footer>
+
+
+<!-- =============================================================
+     DOMAIN ARCHITECTURE LOAD ORDER
+
+     Protected SRPC foundation first.
+     Domain architecture second.
+     Cockpit controller last.
+
+     The cockpit does not replace the domain architecture.
+     ============================================================= -->
+
+<script src="research/srpc/srpcKernel.js"></script>
+<script src="research/srpc/srpcRules.js"></script>
+<script src="research/srpc/srpcCompute.js"></script>
+
+<script src="research/srpc/domain/ScenarioData.js"></script>
+<script src="research/srpc/domain/Rules.js"></script>
+<script src="research/srpc/domain/ScenarioRules.js"></script>
+<script src="research/srpc/domain/RuleEngine.js"></script>
+<script src="research/srpc/domain/Scenario.js"></script>
+<script src="research/srpc/domain/ScenarioRuleEngine.js"></script>
+<script src="research/srpc/domain/ScenarioEngine.js"></script>
+<script src="research/srpc/domain/ScenarioCompute.js"></script>
+<script src="research/srpc/domain/DomainIntegration.js"></script>
+<script src="research/srpc/domain/Module.js"></script>
+
+
+<script>
+
+"use strict";
+
+/*
+ * ================================================================
+ * Sextant Protocol™
+ * SRPC Technology Domain Simulator Factory
+ * Main Cockpit Controller
+ *
+ * IMPORTANT:
+ *
+ * This file is UI / presentation / integration control only.
+ *
+ * It does NOT define:
+ *
+ * - Domain rules
+ * - Decision algorithms
+ * - Protected SRPC computation
+ * - Autonomous action
+ * - Physical execution
+ *
+ * DATA → ALGORITHMS → COMPUTE
+ *
+ * The domain architecture remains authoritative.
+ * ================================================================
+ */
+
+
+const SRPC_COCKPIT_VERSION =
+    "0.1.0-RESEARCH";
+
+
+/*
+ * ------------------------------------------------
+ * DOM HELPERS
+ * ------------------------------------------------
+ */
+
+function getElement(id) {
+
+    return document.getElementById(id);
+
+}
+
+
+function setText(id, value) {
+
+    const element =
+        getElement(id);
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        value === undefined ||
+        value === null
+            ? ""
+            : String(value);
+
+}
+
+
+function setJSON(id, value) {
+
+    const element =
+        getElement(id);
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        JSON.stringify(
+            value,
+            null,
+            2
+        );
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * SAFE OBJECT ACCESS
+ * ------------------------------------------------
+ */
+
+function getScenarioData() {
+
+    if (
+        typeof window.SRPCScenarioData ===
+        "undefined"
+    ) {
+        return null;
+    }
+
+    return window.SRPCScenarioData;
+
+}
+
+
+function getDomainIntegration() {
+
+    if (
+        typeof window.SextantDomainIntegration ===
+        "undefined"
+    ) {
+        return null;
+    }
+
+    return window.SextantDomainIntegration;
+
+}
+
+
+function getScenarioEngine() {
+
+    if (
+        typeof window.SextantScenarioEngine ===
+        "undefined"
+    ) {
+        return null;
+    }
+
+    return window.SextantScenarioEngine;
+
+}
+
+
+function getScenarioCompute() {
+
+    if (
+        typeof window.SextantScenarioCompute ===
+        "undefined"
+    ) {
+        return null;
+    }
+
+    return window.SextantScenarioCompute;
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * FACTORY INITIALIZATION
+ * ------------------------------------------------
+ */
+
+function initializeFactoryScreen() {
+
+    const data =
+        getScenarioData();
+
+    if (!data) {
+
+        setFactoryStatus(
+            "DOMAIN DATA UNAVAILABLE",
+            "error"
+        );
+
+        setText(
+            "domainName",
+            "DOMAIN DATA UNAVAILABLE"
+        );
+
+        return;
+    }
+
+    setText(
+        "domainName",
+        data.domainName ||
+            "Technology Domain"
+    );
+
+    setText(
+        "domainId",
+        data.domainId ||
+            "not-defined"
+    );
+
+    setText(
+        "domainSource",
+        data.source ||
+            "LOCAL_SIMULATION"
+    );
+
+    setText(
+        "domainPurpose",
+        data.purpose ||
+            "SRPC_TECHNOLOGY_DOMAIN_RESEARCH"
+    );
+
+    setJSON(
+        "systemState",
+        data.systemState ||
+            {}
+    );
+
+    updateArchitectureStatus();
+
+    refreshIntegrationStatus();
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * FACTORY STATUS
+ * ------------------------------------------------
+ */
+
+function setFactoryStatus(
+    message,
+    type
+) {
+
+    const element =
+        getElement(
+            "factoryStatus"
+        );
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        message;
+
+    element.className =
+        "status " +
+        (
+            type ||
+            "neutral"
+        );
+
+}
+
+
+function updateArchitectureStatus() {
+
+    const dependencies = {
+
+        srpcKernel:
+            typeof window.SRPCKernel !==
+            "undefined",
+
+        srpcRules:
+            typeof window.SRPCRules !==
+            "undefined",
+
+        srpcCompute:
+            typeof window.SRPCCompute !==
+            "undefined",
+
+        scenarioData:
+            typeof window.SRPCScenarioData !==
+            "undefined",
+
+        scenarioCompute:
+            typeof window.SextantScenarioCompute !==
+            "undefined",
+
+        domainIntegration:
+            typeof window.SextantDomainIntegration !==
+            "undefined"
+
+    };
+
+    const ready =
+        Object.values(
+            dependencies
+        ).every(
+            Boolean
+        );
+
+    setFactoryStatus(
+        ready
+            ? "READY — ARCHITECTURE LOADED"
+            : "WARNING — ARCHITECTURE INCOMPLETE",
+        ready
+            ? "ready"
+            : "warning"
+    );
+
+    setJSON(
+        "integrationStatus",
+        dependencies
+    );
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * DOMAIN INTEGRATION STATUS
+ * ------------------------------------------------
+ */
+
+function refreshIntegrationStatus() {
+
+    const integration =
+        getDomainIntegration();
+
+    if (!integration) {
+
+        setText(
+            "integrationStatus",
+            "DomainIntegration.js unavailable."
+        );
+
+        return;
+    }
+
+    try {
+
+        if (
+            typeof integration.getStatus ===
+            "function"
+        ) {
+
+            const status =
+                integration.getStatus();
+
+            setJSON(
+                "integrationStatus",
+                status
+            );
+
+            return;
+        }
+
+        setText(
+            "integrationStatus",
+            "DomainIntegration loaded."
+        );
+
+    } catch (error) {
+
+        setJSON(
+            "integrationStatus",
+            {
+                status:
+                    "INTEGRATION_STATUS_ERROR",
+
+                error:
+                    error.message
+            }
+        );
+
+    }
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * BUILD SCENARIO INPUT
+ * ------------------------------------------------
+ *
+ * Static timestamp is intentional.
+ *
+ * Deterministic research validation must not
+ * introduce a changing runtime timestamp.
+ * ------------------------------------------------
+ */
+
+function buildScenarioInput() {
+
+    const data =
+        getScenarioData();
+
+    if (!data) {
+
+        throw new Error(
+            "SRPC ScenarioData is unavailable."
+        );
+
+    }
+
+    return {
+
+        source:
+            data.source ||
+            "LOCAL_SIMULATION",
+
+        purpose:
+            data.purpose ||
+            "SRPC_TECHNOLOGY_DOMAIN_RESEARCH",
+
+        timestamp:
+            "STATIC_TEST_TIMESTAMP",
+
+        systemState: {
+            ...(data.systemState || {})
+        }
+
+    };
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * SCENARIO EXECUTION
+ * ------------------------------------------------
+ */
+
+function runScenario() {
+
+    const integration =
+        getDomainIntegration();
+
+    const compute =
+        getScenarioCompute();
+
+    if (!integration) {
+
+        setJSON(
+            "scenarioOutput",
+            {
+                executed: false,
+
+                error:
+                    "DomainIntegration.js unavailable.",
+
+                physicalExecution: false,
+                backendConnection: false,
+                externalConnection: false,
+                autonomousActuation: false,
+                humanAuthorizationRequired: true
+            }
+        );
+
+        return;
+    }
+
+    try {
+
+        const input =
+            buildScenarioInput();
+
+        let result;
+
+        /*
+         * DomainIntegration is preferred because
+         * it is the domain-to-SRPC integration boundary.
+         */
+
+        if (
+            typeof integration.process ===
+            "function"
+        ) {
+
+            result =
+                integration.process();
+
+        } else if (
+            compute &&
+            typeof compute.execute ===
+            "function"
+        ) {
+
+            result =
+                compute.execute(
+                    input
+                );
+
+        } else {
+
+            throw new Error(
+                "No valid domain processing interface is available."
+            );
+
+        }
+
+        setJSON(
+            "scenarioOutput",
+            result
+        );
+
+        recordAudit(
+            "SCENARIO_PROCESSED",
+            result
+        );
+
+    } catch (error) {
+
+        const failure = {
+
+            executed: false,
+
+            status:
+                "SCENARIO_EXECUTION_ERROR",
+
+            error:
+                error.message,
+
+            physicalExecution: false,
+            backendConnection: false,
+            externalConnection: false,
+            autonomousActuation: false,
+            humanAuthorizationRequired: true
+
+        };
+
+        setJSON(
+            "scenarioOutput",
+            failure
+        );
+
+        recordAudit(
+            "SCENARIO_EXECUTION_ERROR",
+            failure
+        );
+
+    }
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * DETERMINISM TEST
+ * ------------------------------------------------
+ */
+
+function testDeterminism() {
+
+    const integration =
+        getDomainIntegration();
+
+    const compute =
+        getScenarioCompute();
+
+    try {
+
+        const input =
+            buildScenarioInput();
+
+        let result;
+
+        if (
+            integration &&
+            typeof integration.testDeterminism ===
+            "function"
+        ) {
+
+            result =
+                integration.testDeterminism(
+                    input
+                );
+
+        } else if (
+            compute &&
+            typeof compute.testDeterminism ===
+            "function"
+        ) {
+
+            result =
+                compute.testDeterminism(
+                    input
+                );
+
+        } else {
+
+            throw new Error(
+                "Determinism interface unavailable."
+            );
+
+        }
+
+        setJSON(
+            "scenarioOutput",
+            result
+        );
+
+        recordAudit(
+            "DETERMINISM_TEST",
+            result
+        );
+
+    } catch (error) {
+
+        const failure = {
+
+            deterministic: false,
+
+            status:
+                "DETERMINISM_TEST_ERROR",
+
+            error:
+                error.message,
+
+            physicalExecution: false,
+            backendConnection: false,
+            externalConnection: false,
+            autonomousActuation: false,
+            humanAuthorizationRequired: true
+
+        };
+
+        setJSON(
+            "scenarioOutput",
+            failure
+        );
+
+        recordAudit(
+            "DETERMINISM_TEST_ERROR",
+            failure
+        );
+
+    }
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * HUMAN DECISION AUTHORITY
+ * ------------------------------------------------
+ *
+ * This records the human-selected option.
+ *
+ * It does NOT execute an external or physical
+ * action.
+ * ------------------------------------------------
+ */
+
+function recordHumanDecision(
+    decision
+) {
+
+    const record = {
+
+        decisionAuthority:
+            "HUMAN",
+
+        decision:
+            decision,
+
+        timestamp:
+            "STATIC_RESEARCH_TIMESTAMP",
+
+        physicalExecution:
+            false,
+
+        backendConnection:
+            false,
+
+        externalConnection:
+            false,
+
+        autonomousActuation:
+            false,
+
+        status:
+            "HUMAN_DECISION_RECORDED"
+
+    };
+
+    setJSON(
+        "decisionOutput",
+        record
+    );
+
+    recordAudit(
+        "HUMAN_DECISION",
+        record
+    );
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * AUDIT RECORD
+ * ------------------------------------------------
+ */
+
+function recordAudit(
+    event,
+    payload
+) {
+
+    const audit = {
+
+        auditVersion:
+            "0.1.0-RESEARCH",
+
+        event:
+            event,
+
+        source:
+            "SRPC_MAIN_COCKPIT",
+
+        timestamp:
+            "STATIC_RESEARCH_TIMESTAMP",
+
+        payload:
+            payload || null,
+
+        safetyBoundary: {
+
+            physicalExecution:
+                false,
+
+            backendConnection:
+                false,
+
+            externalConnection:
+                false,
+
+            autonomousActuation:
+                false,
+
+            humanAuthorizationRequired:
+                true
+
+        }
+
+    };
+
+    setJSON(
+        "auditOutput",
+        audit
+    );
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * EVENT WIRING
+ * ------------------------------------------------
+ */
+
+function wireEvents() {
+
+    const runButton =
+        getElement(
+            "runScenarioButton"
+        );
+
+    if (runButton) {
+
+        runButton.addEventListener(
+            "click",
+            runScenario
+        );
+
+    }
+
+
+    const determinismButton =
+        getElement(
+            "determinismButton"
+        );
+
+    if (determinismButton) {
+
+        determinismButton.addEventListener(
+            "click",
+            testDeterminism
+        );
+
+    }
+
+
+    const refreshButton =
+        getElement(
+            "refreshStatusButton"
+        );
+
+    if (refreshButton) {
+
+        refreshButton.addEventListener(
+            "click",
+            refreshIntegrationStatus
+        );
+
+    }
+
+
+    const decisionButtons =
+        document.querySelectorAll(
+            "[data-decision]"
+        );
+
+    decisionButtons.forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    const decision =
+                        button.getAttribute(
+                            "data-decision"
+                        );
+
+                    recordHumanDecision(
+                        decision
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/*
+ * ------------------------------------------------
+ * START
+ * ------------------------------------------------
+ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        wireEvents();
+
+        initializeFactoryScreen();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
