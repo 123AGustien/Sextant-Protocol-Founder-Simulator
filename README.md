@@ -1,3 +1,5 @@
+https://123AGustien.github.io/Sextant-SRPC-Technology-Domain-Simulator-Factory/research/srpc/srpcTest.html
+
 research/
 └── srpc/
     ├── srpcKernel.js       ← protected SRPC
