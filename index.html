@@ -1,0 +1,1244 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+«»
+
+<meta
+name="description"
+content="Sextant Protocol™ Financial Resilience Domain Research Simulator"
+
+«»
+
+<title>
+Sextant Protocol™ — Financial Resilience Domain Simulator
+</title><style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:10px;
+    background:#05090d;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    line-height:1.5;
+}
+
+h1{
+    margin:8px 0;
+    text-align:center;
+    color:#00ff88;
+    font-size:24px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#aaa;
+    margin-bottom:12px;
+}
+
+.banner,
+.status{
+    padding:12px;
+    margin-bottom:12px;
+    border:1px solid #00ff88;
+    border-radius:6px;
+    background:#080d11;
+    color:#00ff88;
+    text-align:center;
+    font-weight:bold;
+}
+
+.panel{
+    margin-bottom:12px;
+    padding:15px;
+    border:1px solid #26343d;
+    border-radius:8px;
+    background:#080d11;
+}
+
+.title{
+    margin-bottom:10px;
+    color:#00ff88;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.muted{
+    color:#aaa;
+    font-size:13px;
+}
+
+button{
+    min-height:44px;
+    padding:10px 14px;
+    border:1px solid #00ff88;
+    border-radius:6px;
+    background:#111a20;
+    color:#fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#17242c;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.monitor{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+}
+
+.domain{
+    padding:12px;
+    border:1px solid #00ff88;
+    border-radius:6px;
+    background:#080d11;
+    text-align:center;
+}
+
+.domain-name{
+    color:#aaa;
+    font-size:13px;
+}
+
+.domain-value{
+    margin-top:5px;
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.pipeline{
+    padding:10px;
+    border:1px solid #00ff88;
+    border-radius:6px;
+    overflow-x:auto;
+    white-space:nowrap;
+}
+
+.stage{
+    display:inline-block;
+    margin:3px;
+    padding:8px;
+    border:1px solid #00ff88;
+    border-radius:4px;
+}
+
+.stage.active{
+    background:#00ff88;
+    color:#000;
+}
+
+pre{
+    margin:0;
+    white-space:pre-wrap;
+    word-break:break-word;
+    overflow-x:auto;
+    color:#00ff88;
+    line-height:1.5;
+}
+
+.integration{
+    border:1px solid #00bfff;
+}
+
+.boundary{
+    border:2px solid #ffb000;
+}
+
+.danger{
+    border-color:#ff5555;
+    background:#ff5555;
+    color:#fff;
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:8px;
+    }
+
+    h1{
+        font-size:21px;
+    }
+
+    .panel{
+        padding:12px;
+    }
+
+    .controls{
+        flex-direction:column;
+    }
+
+    .controls button{
+        width:100%;
+        min-height:52px;
+    }
+
+    .pipeline{
+        white-space:normal;
+        line-height:2;
+    }
+
+}
+
+</style></head><body><h1>
+🛰️ SEXTANT PROTOCOL™
+</h1><div class="subtitle"><strong>
+Financial Resilience Domain Research Platform
+</strong><br>Deterministic banking and financial resilience simulation
+
+<br><br>
+
+SRPC:
+
+OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+
+</div><div class="banner">🧪 SELF-CONTAINED RESEARCH SIMULATOR —
+LOCAL DETERMINISTIC EXECUTION —
+NO BACKEND CONNECTION
+
+</div><div
+    class="status"
+    id="systemStatus"
+>
+SYSTEM STATUS: READY — FINANCIAL RESILIENCE RESEARCH
+</div><!-- =====================================================
+     FIN CONTROLS
+====================================================== --><section class="panel"><div class="title">
+🎛️ FINANCIAL RESILIENCE CONTROLS
+</div><div class="controls"><button
+type="button"
+onclick="runFINScenario()"
+
+«»
+
+▶ RUN FIN SCENARIO
+</button>
+
+<button
+type="button"
+onclick="runFINIntegrationTest()"
+
+«»
+
+🔌 RUN FIN INTEGRATION TEST
+</button>
+
+<button
+type="button"
+onclick="runFINDeterminismTest()"
+
+«»
+
+🔁 RUN FIN DETERMINISM TEST
+</button>
+
+<button
+type="button"
+onclick="validateFINScenario()"
+
+«»
+
+🔎 VALIDATE FIN SCENARIO
+</button>
+
+<button
+type="button"
+onclick="viewFINScenario()"
+
+«»
+
+📋 VIEW FIN SCENARIO
+</button>
+
+<button
+type="button"
+class="danger"
+onclick="resetFINResearch()"
+
+«»
+
+RESET FIN RESEARCH
+</button>
+
+</div></section><!-- =====================================================
+     FIN SCENARIO
+====================================================== --><section class="panel"><div class="title">
+🏦 FINANCIAL RESILIENCE RESEARCH SCENARIO
+</div><div class="muted">FIN-SCENARIO-001 —
+Financial Resilience Baseline Scenario
+
+</div><br><div class="monitor"><div class="domain"><div class="domain-name">
+LIQUIDITY
+</div><div
+    id="finLiquidity"
+    class="domain-value"
+>
+—
+</div></div><div class="domain"><div class="domain-name">
+CAPITAL
+</div><div
+    id="finCapital"
+    class="domain-value"
+>
+—
+</div></div><div class="domain"><div class="domain-name">
+CREDIT
+</div><div
+    id="finCredit"
+    class="domain-value"
+>
+—
+</div></div><div class="domain"><div class="domain-name">
+MARKET
+</div><div
+    id="finMarket"
+    class="domain-value"
+>
+—
+</div></div><div class="domain"><div class="domain-name">
+FX
+</div><div
+    id="finFX"
+    class="domain-value"
+>
+—
+</div></div><div class="domain"><div class="domain-name">
+OPERATIONAL
+</div><div
+    id="finOperational"
+    class="domain-value"
+>
+—
+</div></div></div></section><!-- =====================================================
+     FIN GOLDEN RULE
+====================================================== --><section class="panel"><div class="title">
+🛰️ FIN GOLDEN RULE PIPELINE
+</div><div class="pipeline"><span
+id="finStageObserve"
+class="stage"
+
+«»
+
+OBSERVE
+</span>
+
+→
+
+<span
+id="finStageVerify"
+class="stage"
+
+«»
+
+VERIFY
+</span>
+
+→
+
+<span
+id="finStageAssess"
+class="stage"
+
+«»
+
+ASSESS
+</span>
+
+→
+
+<span
+id="finStageDecide"
+class="stage"
+
+«»
+
+DECIDE
+</span>
+
+→
+
+<span
+id="finStageAct"
+class="stage"
+
+«»
+
+ACT
+</span>
+
+→
+
+<span
+id="finStageUpdate"
+class="stage"
+
+«»
+
+UPDATE
+</span>
+
+</div><br><pre id="finPipeline">
+FIN processing pipeline waiting...
+</pre></section><!-- =====================================================
+     FIN DOMAIN INTEGRATION
+====================================================== --><section class="panel integration"><div class="title">
+🔌 FIN DOMAIN INTEGRATION LAYER
+</div><pre id="finIntegration">
+
+Sextant Protocol™
+↓
+FINANCIAL RESILIENCE DOMAIN
+↓
+FIN SCENARIO
+↓
+FIN SCENARIO RULE ENGINE
+↓
+FIN SCENARIO ENGINE
+↓
+RESILIENCE ASSESSMENT
+↓
+DECISION SUPPORT
+↓
+HUMAN DECISION AUTHORITY
+↓
+SIMULATED ACTION / UPDATE
+
+FIN domain integration test not executed.
+
+</pre></section><!-- =====================================================
+     RAW FIN SYSTEM STATE
+====================================================== --><section class="panel"><div class="title">
+📊 RAW FINANCIAL SYSTEM STATE
+</div><pre id="finState">
+Waiting...
+</pre></section><!-- =====================================================
+     FIN RULE EVALUATION
+====================================================== --><section class="panel"><div class="title">
+📋 FIN RULE EVALUATION
+</div><pre id="finRuleEvaluation">
+FIN rule evaluation not executed.
+</pre></section><!-- =====================================================
+     FIN RESILIENCE ASSESSMENT
+====================================================== --><section class="panel"><div class="title">
+⚠️ FIN RESILIENCE ASSESSMENT
+</div><pre id="finAssessment">
+FIN resilience assessment not executed.
+</pre></section><!-- =====================================================
+     FIN DECISION SUPPORT
+====================================================== --><section class="panel"><div class="title">
+🧠 FIN DECISION SUPPORT
+</div><pre id="finDecision">
+FIN decision support not executed.
+</pre></section><!-- =====================================================
+     FIN VALIDATION
+====================================================== --><section class="panel"><div class="title">
+🔎 FIN SCENARIO VALIDATION
+</div><pre id="finValidation">
+FIN scenario validation not executed.
+</pre></section><!-- =====================================================
+     FIN DETERMINISM
+====================================================== --><section class="panel"><div class="title">
+🔁 FIN DETERMINISM
+</div><pre id="finDeterminism">
+FIN determinism test not executed.
+</pre></section><!-- =====================================================
+     FIN COMPLETE RESULT
+====================================================== --><section class="panel"><div class="title">
+📊 FIN COMPLETE RESULT
+</div><pre id="finCompleteResult">
+Complete FIN result not executed.
+</pre></section><!-- =====================================================
+     FIN SAFETY BOUNDARY
+====================================================== --><section class="panel boundary"><div class="title">
+🛡️ FIN RESEARCH SAFETY BOUNDARY
+</div><pre>
+
+LOCAL DETERMINISTIC RESEARCH SIMULATION
+
+Financial execution       : DISABLED
+Market execution          : DISABLED
+Payment execution         : DISABLED
+Backend connection        : DISABLED
+External connection       : DISABLED
+Autonomous authority      : DISABLED
+Human authorization       : REQUIRED
+
+Research purpose only.
+
+No financial transaction is executed.
+No market instruction is issued.
+No payment or settlement system is connected.
+
+</pre></section><!-- =====================================================
+     AUTHORITATIVE SCRIPT LOAD ORDER
+====================================================== --><script src="research/srpc/srpcKernel.js"></script><script src="research/srpc/srpcRules.js"></script><script src="research/srpc/srpcCompute.js"></script><!-- =====================================================
+     FINANCIAL RESILIENCE DOMAIN
+====================================================== --><script src="research/srpc/domain/fin/ScenarioData.js"></script><script src="research/srpc/domain/fin/Scenario.js"></script><script src="research/srpc/domain/fin/Rules.js"></script><script src="research/srpc/domain/fin/RuleEngine.js"></script><script src="research/srpc/domain/fin/ScenarioRules.js"></script><script src="research/srpc/domain/fin/ScenarioRuleEngine.js"></script><script src="research/srpc/domain/fin/ScenarioEngine.js"></script><script src="research/srpc/domain/fin/DomainIntegration.js"></script><!-- =====================================================
+     FIN SCREEN BRIDGE
+====================================================== --><script>
+
+"use strict";
+
+
+function setText(id,value){
+
+    const element =
+        document.getElementById(id);
+
+    if(!element){
+        return;
+    }
+
+    element.textContent =
+        value === undefined ||
+        value === null
+            ? "—"
+            : String(value);
+
+}
+
+
+function setJSON(id,value){
+
+    const element =
+        document.getElementById(id);
+
+    if(!element){
+        return;
+    }
+
+    try{
+
+        element.textContent =
+            JSON.stringify(
+                value,
+                null,
+                2
+            );
+
+    }catch(error){
+
+        element.textContent =
+            String(value);
+
+    }
+
+}
+
+
+function setFINStage(
+    stageId,
+    active
+){
+
+    const element =
+        document.getElementById(
+            stageId
+        );
+
+    if(!element){
+        return;
+    }
+
+    if(active){
+
+        element.classList.add(
+            "active"
+        );
+
+    }else{
+
+        element.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+function resetFINStages(){
+
+    [
+        "finStageObserve",
+        "finStageVerify",
+        "finStageAssess",
+        "finStageDecide",
+        "finStageAct",
+        "finStageUpdate"
+
+    ].forEach(function(id){
+
+        setFINStage(
+            id,
+            false
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   FIN INPUT DISPLAY
+===================================================== */
+
+function displayFINInputs(){
+
+    const scenario =
+        window.FINScenario;
+
+    if(
+        !scenario ||
+        typeof scenario.getInputs !==
+            "function"
+    ){
+
+        return {};
+
+    }
+
+    const inputs =
+        scenario.getInputs();
+
+    if(!inputs){
+        return {};
+    }
+
+    setJSON(
+        "finState",
+        inputs
+    );
+
+    return inputs;
+
+}
+
+
+/* =====================================================
+   FIN SCENARIO EXECUTION
+===================================================== */
+
+function runFINScenario(){
+
+    resetFINStages();
+
+    setFINStage(
+        "finStageObserve",
+        true
+    );
+
+    const engine =
+        window.FINScenarioEngine;
+
+    if(
+        !engine ||
+        typeof engine.execute !==
+            "function"
+    ){
+
+        setJSON(
+            "finCompleteResult",
+            {
+                status:
+                    "FIN_SCENARIO_ENGINE_UNAVAILABLE"
+            }
+        );
+
+        setText(
+            "systemStatus",
+            "SYSTEM STATUS: FIN ENGINE UNAVAILABLE"
+        );
+
+        return;
+
+    }
+
+    try{
+
+        displayFINInputs();
+
+        setFINStage(
+            "finStageVerify",
+            true
+        );
+
+        const result =
+            engine.execute();
+
+        setFINStage(
+            "finStageAssess",
+            true
+        );
+
+        setFINStage(
+            "finStageDecide",
+            true
+        );
+
+        setFINStage(
+            "finStageAct",
+            true
+        );
+
+        setFINStage(
+            "finStageUpdate",
+            true
+        );
+
+        setText(
+            "finPipeline",
+            "OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE"
+        );
+
+        setJSON(
+            "finIntegration",
+            result
+        );
+
+        setJSON(
+            "finRuleEvaluation",
+            result.ruleEvaluation
+        );
+
+        setJSON(
+            "finAssessment",
+            {
+                scenario:
+                    result.scenario,
+
+                validation:
+                    result.validation,
+
+                status:
+                    result.status
+            }
+        );
+
+        setJSON(
+            "finDecision",
+            result.compute ||
+            result.decision ||
+            "Human decision authority required."
+        );
+
+        setJSON(
+            "finCompleteResult",
+            result
+        );
+
+        setText(
+            "systemStatus",
+            result.status
+                ? "SYSTEM STATUS: FIN — " +
+                  result.status
+                : "SYSTEM STATUS: FIN — COMPLETED"
+        );
+
+    }catch(error){
+
+        setJSON(
+            "finCompleteResult",
+            {
+                status:
+                    "FIN_TEST_ERROR",
+
+                error:
+                    error.message,
+
+                safety:{
+                    localDeterministic:
+                        true,
+
+                    financialExecution:
+                        false,
+
+                    marketExecution:
+                        false,
+
+                    backendConnection:
+                        false,
+
+                    externalConnection:
+                        false,
+
+                    autonomousAuthority:
+                        false,
+
+                    humanDecisionAuthority:
+                        true
+                }
+            }
+        );
+
+        setText(
+            "systemStatus",
+            "SYSTEM STATUS: FIN TEST ERROR"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FIN DOMAIN INTEGRATION
+===================================================== */
+
+function runFINIntegrationTest(){
+
+    const integration =
+        window.FINDomainIntegration;
+
+    if(
+        !integration ||
+        typeof integration.execute !==
+            "function"
+    ){
+
+        setJSON(
+            "finIntegration",
+            {
+                status:
+                    "FIN_DOMAIN_INTEGRATION_UNAVAILABLE"
+            }
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const result =
+            integration.execute();
+
+        setJSON(
+            "finIntegration",
+            result
+        );
+
+        setJSON(
+            "finCompleteResult",
+            result
+        );
+
+        setText(
+            "systemStatus",
+            result.status
+                ? "SYSTEM STATUS: FIN INTEGRATION — " +
+                  result.status
+                : "SYSTEM STATUS: FIN INTEGRATION — COMPLETED"
+        );
+
+    }catch(error){
+
+        setJSON(
+            "finIntegration",
+            {
+                status:
+                    "FIN_INTEGRATION_TEST_ERROR",
+
+                error:
+                    error.message
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FIN DETERMINISM
+===================================================== */
+
+function runFINDeterminismTest(){
+
+    const engine =
+        window.FINScenarioEngine;
+
+    if(
+        !engine ||
+        typeof engine.execute !==
+            "function"
+    ){
+
+        setJSON(
+            "finDeterminism",
+            {
+                status:"FAIL",
+                error:
+                    "FINScenarioEngine.execute() unavailable."
+            }
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const first =
+            engine.execute();
+
+        const second =
+            engine.execute();
+
+        const identical =
+            JSON.stringify(first) ===
+            JSON.stringify(second);
+
+        setJSON(
+            "finDeterminism",
+            {
+                test:
+                    "FIN_SCENARIO_ENGINE_DETERMINISM",
+
+                status:
+                    identical
+                        ? "PASS"
+                        : "FAIL",
+
+                identical:
+                    identical,
+
+                firstRun:
+                    first,
+
+                secondRun:
+                    second
+            }
+        );
+
+        setText(
+            "systemStatus",
+            identical
+                ? "SYSTEM STATUS: FIN DETERMINISM — PASS"
+                : "SYSTEM STATUS: FIN DETERMINISM — FAIL"
+        );
+
+    }catch(error){
+
+        setJSON(
+            "finDeterminism",
+            {
+                status:
+                    "TEST_ERROR",
+
+                error:
+                    error.message
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FIN VALIDATION
+===================================================== */
+
+function validateFINScenario(){
+
+    const scenario =
+        window.FINScenario;
+
+    if(
+        !scenario ||
+        typeof scenario.validate !==
+            "function"
+    ){
+
+        setJSON(
+            "finValidation",
+            {
+                status:"FAIL",
+                error:
+                    "FINScenario.validate() unavailable."
+            }
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const validation =
+            scenario.validate();
+
+        setJSON(
+            "finValidation",
+            validation
+        );
+
+        setText(
+            "systemStatus",
+            "SYSTEM STATUS: FIN VALIDATION — " +
+            (
+                validation.valid === false
+                    ? "FAILED"
+                    : "PASS"
+            )
+        );
+
+    }catch(error){
+
+        setJSON(
+            "finValidation",
+            {
+                status:
+                    "TEST_ERROR",
+
+                error:
+                    error.message
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FIN SCENARIO VIEW
+===================================================== */
+
+function viewFINScenario(){
+
+    const scenario =
+        window.FINScenario;
+
+    if(!scenario){
+
+        setJSON(
+            "finState",
+            {
+                status:
+                    "FIN_SCENARIO_UNAVAILABLE"
+            }
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const result =
+            typeof scenario.getScenario ===
+                "function"
+
+                ? scenario.getScenario()
+
+                : scenario;
+
+        setJSON(
+            "finState",
+            result
+        );
+
+    }catch(error){
+
+        setJSON(
+            "finState",
+            {
+                status:
+                    "FIN_SCENARIO_VIEW_ERROR",
+
+                error:
+                    error.message
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FIN RESET
+===================================================== */
+
+function resetFINResearch(){
+
+    resetFINStages();
+
+    setText(
+        "finPipeline",
+        "FIN processing pipeline waiting..."
+    );
+
+    setText(
+        "finIntegration",
+        "FIN domain integration test not executed."
+    );
+
+    setText(
+        "finState",
+        "Waiting..."
+    );
+
+    setText(
+        "finRuleEvaluation",
+        "FIN rule evaluation not executed."
+    );
+
+    setText(
+        "finAssessment",
+        "FIN resilience assessment not executed."
+    );
+
+    setText(
+        "finDecision",
+        "FIN decision support not executed."
+    );
+
+    setText(
+        "finValidation",
+        "FIN scenario validation not executed."
+    );
+
+    setText(
+        "finDeterminism",
+        "FIN determinism test not executed."
+    );
+
+    setText(
+        "finCompleteResult",
+        "Complete FIN result not executed."
+    );
+
+    [
+        "finLiquidity",
+        "finCapital",
+        "finCredit",
+        "finMarket",
+        "finFX",
+        "finOperational"
+
+    ].forEach(function(id){
+
+        setText(
+            id,
+            "—"
+        );
+
+    });
+
+    setText(
+        "systemStatus",
+        "SYSTEM STATUS: READY — FINANCIAL RESILIENCE RESEARCH"
+    );
+
+}
+
+
+/* =====================================================
+   GLOBAL CONTROLS
+===================================================== */
+
+window.runFINScenario =
+    runFINScenario;
+
+window.runFINIntegrationTest =
+    runFINIntegrationTest;
+
+window.runFINDeterminismTest =
+    runFINDeterminismTest;
+
+window.validateFINScenario =
+    validateFINScenario;
+
+window.viewFINScenario =
+    viewFINScenario;
+
+window.resetFINResearch =
+    resetFINResearch;
+
+
+/* =====================================================
+   INITIAL STATE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        resetFINResearch();
+
+    }
+);
+
+</script></body></html>
+```Important, Don
+
+I have deliberately kept this simple.
+
+The existing repository's "index.html" currently loads the protected SRPC foundation first and then the Grid domain files in an authoritative order.
+
+This FIN version follows that same principle:
+
+SRPC Foundation
+
+↓
+FIN Scenario Data
+
+↓
+FIN Scenario
+
+↓
+FIN Rules
+
+↓
+FIN Rule Engine
+
+↓
+FIN Scenario Rules
+
+↓
+FIN Scenario Rule Engine
+
+↓
+FIN Scenario Engine
+
+↓
+FIN Domain Integration
+
+↓
+FIN Screen
+
+The one thing we must check before committing is that these exact FIN filenames exist:
+
+"ScenarioData.js"
+"Scenario.js"
+"Rules.js"
+"RuleEngine.js"
+"ScenarioRules.js"
+"ScenarioRuleEngine.js"
+"ScenarioEngine.js"
+"DomainIntegration.js"
+
+If they do, this gives us the FIN screen foundation without dragging the Edge/Grid code into the Banking simulator.
+
+"Exact current index.html at commit 3531bd3" (https://raw.githubusercontent.com/123AGustien/Sextant-Protocol-Founder-Simulator/3531bd322ce207bbbf3709ba9b811990da46a2e7/index.html?utm_source=chatgpt.com)
