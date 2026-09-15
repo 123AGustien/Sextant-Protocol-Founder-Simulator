@@ -1,4 +1,10 @@
-
+Best safe method
+Since your GitHub Pages version is currently working, the safest approach is:
+On GitHub, open the domain/grid-module-dpa branch.
+Tap Code → Download ZIP.
+Save it to your hard drive.
+Rename it:
+Sextant-SRPC-Factory-MASTER-domain-grid-module-dpa.zip
 The target URL should be:
 Grid ScenarioTest
 
