@@ -1,0 +1,401 @@
+name: Create SRPC Technology Domain Simulator
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain_name:
+        description: "Technology or company domain name"
+        required: true
+        type: string
+
+      domain_id:
+        description: "Domain ID using lowercase letters, numbers and hyphens"
+        required: true
+        type: string
+
+jobs:
+  create-domain:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify protected SRPC foundation
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking protected SRPC foundation..."
+
+          REQUIRED_FILES=(
+            "research/srpc/srpcKernel.js"
+            "research/srpc/srpcRules.js"
+            "research/srpc/srpcCompute.js"
+            "research/srpc/srpcTest.html"
+          )
+
+          for FILE in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$FILE" ]; then
+              echo "ERROR: Protected file missing:"
+              echo "$FILE"
+              exit 1
+            fi
+
+            echo "FOUND: $FILE"
+          done
+
+          echo "Protected SRPC foundation verified."
+
+      - name: Validate domain ID
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_ID="${{ inputs.domain_id }}"
+
+          if [[ ! "$DOMAIN_ID" =~ ^[a-z0-9-]+$ ]]; then
+            echo "ERROR: Invalid domain_id."
+            echo "Use lowercase letters, numbers and hyphens only."
+            exit 1
+          fi
+
+          echo "Domain ID validated: $DOMAIN_ID"
+
+      - name: Check domain does not already exist
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          if [ -d "$DOMAIN_DIR" ]; then
+            echo "ERROR: Domain already exists:"
+            echo "$DOMAIN_DIR"
+            exit 1
+          fi
+
+          echo "Domain is available: $DOMAIN_DIR"
+
+      - name: Create domain directory
+        shell: bash
+        run: |
+          mkdir -p "research/srpc/${{ inputs.domain_id }}"
+
+      - name: Create ScenarioData.js
+        shell: bash
+        run: |
+          cat > "research/srpc/${{ inputs.domain_id }}/ScenarioData.js" <<EOF
+"use strict";
+
+/*
+ * Sextant Protocol
+ * SRPC Technology Domain Simulator
+ *
+ * Domain:
+ * ${{ inputs.domain_name }}
+ *
+ * Purpose:
+ * Deterministic domain-specific research data.
+ *
+ * Safety:
+ * - Local research simulation only
+ * - No backend connection
+ * - No external connection
+ * - No physical execution
+ * - No autonomous actuation
+ * - Human authority remains external
+ */
+
+const SRPC_SCENARIO_DATA = {
+
+    domainName: "${{ inputs.domain_name }}",
+    domainId: "${{ inputs.domain_id }}",
+
+    source: "LOCAL_SIMULATION",
+    purpose: "SRPC_TECHNOLOGY_DOMAIN_RESEARCH",
+
+    systemState: {
+        status: "INITIALIZED",
+        resilienceScore: 0
+    }
+};
+
+window.SRPCScenarioData = SRPC_SCENARIO_DATA;
+EOF
+
+      - name: Create Rules.js
+        shell: bash
+        run: |
+          cat > "research/srpc/${{ inputs.domain_id }}/Rules.js" <<EOF
+"use strict";
+
+/*
+ * Sextant Protocol
+ * SRPC Technology Domain Rules
+ *
+ * Domain:
+ * ${{ inputs.domain_name }}
+ *
+ * Domain rules remain separate from the
+ * protected SRPC foundation.
+ */
+
+const SRPC_SCENARIO_RULES = {
+
+    domainName: "${{ inputs.domain_name }}",
+
+    evaluate: function (systemState) {
+
+        if (
+            !systemState ||
+            typeof systemState !== "object"
+        ) {
+            return {
+                passed: false,
+                result: "SYSTEM_STATE_INVALID"
+            };
+        }
+
+        return {
+            passed: true,
+            result: "DOMAIN_INPUT_VALID"
+        };
+    }
+};
+
+window.SRPCScenarioRules = SRPC_SCENARIO_RULES;
+EOF
+
+      - name: Create ScenarioCompute.js
+        shell: bash
+        run: |
+          cat > "research/srpc/${{ inputs.domain_id }}/ScenarioCompute.js" <<EOF
+"use strict";
+
+/*
+ * Sextant Protocol
+ * SRPC Technology Domain Compute
+ *
+ * Domain:
+ * ${{ inputs.domain_name }}
+ *
+ * DATA
+ * ↓
+ * SRPC KERNEL
+ * ↓
+ * DOMAIN RULES
+ * ↓
+ * COMPUTE
+ * ↓
+ * DETERMINISTIC RESULT
+ */
+
+function executeSRPCScenario(input) {
+
+    if (
+        typeof window.SRPCKernel === "undefined" ||
+        typeof window.SRPCScenarioRules === "undefined"
+    ) {
+        return {
+            executed: false,
+            error: "Required SRPC domain dependencies unavailable."
+        };
+    }
+
+    return window.SRPCKernel.execute(
+        input,
+        function (algorithmInput) {
+
+            return window.SRPCScenarioRules.evaluate(
+                algorithmInput.systemState
+            );
+        }
+    );
+}
+
+window.SRPCScenarioCompute = {
+    execute: executeSRPCScenario
+};
+EOF
+
+      - name: Create ScenarioTest.html
+        shell: bash
+        run: |
+          cat > "research/srpc/${{ inputs.domain_id }}/ScenarioTest.html" <<EOF
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SRPC Domain Test — ${{ inputs.domain_name }}
+    </title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #f9fafb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .panel {
+            background: #1f2937;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #030712;
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>SRPC Technology Domain Simulator</h1>
+
+    <div class="panel">
+
+        <h2>${{ inputs.domain_name }}</h2>
+
+        <pre id="output">Running...</pre>
+
+    </div>
+
+    <!-- Protected SRPC foundation -->
+
+    <script src="../srpcKernel.js"></script>
+    <script src="../srpcRules.js"></script>
+    <script src="../srpcCompute.js"></script>
+
+    <!-- Generated domain -->
+
+    <script src="./ScenarioData.js"></script>
+    <script src="./Rules.js"></script>
+    <script src="./ScenarioCompute.js"></script>
+
+    <script>
+
+        "use strict";
+
+        const input = {
+
+            source:
+                SRPCScenarioData.source,
+
+            purpose:
+                SRPCScenarioData.purpose,
+
+            timestamp:
+                "STATIC_TEST_TIMESTAMP",
+
+            systemState: {
+                ...SRPCScenarioData.systemState
+            }
+
+        };
+
+        const result =
+            SRPCScenarioCompute.execute(input);
+
+        document.getElementById("output")
+            .textContent =
+                JSON.stringify(
+                    result,
+                    null,
+                    2
+                );
+
+    </script>
+
+</body>
+
+</html>
+EOF
+
+      - name: Verify generated files
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          REQUIRED_DOMAIN_FILES=(
+            "$DOMAIN_DIR/ScenarioData.js"
+            "$DOMAIN_DIR/Rules.js"
+            "$DOMAIN_DIR/ScenarioCompute.js"
+            "$DOMAIN_DIR/ScenarioTest.html"
+          )
+
+          for FILE in "${REQUIRED_DOMAIN_FILES[@]}"; do
+
+            if [ ! -f "$FILE" ]; then
+              echo "ERROR: Generated file missing:"
+              echo "$FILE"
+              exit 1
+            fi
+
+            echo "GENERATED: $FILE"
+
+          done
+
+          echo "All domain files verified."
+
+      - name: Verify protected foundation unchanged
+        shell: bash
+        run: |
+          set -e
+
+          git diff --exit-code -- \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+
+          echo "Protected SRPC foundation unchanged."
+
+      - name: Create factory branch
+        shell: bash
+        run: |
+          set -e
+
+          BRANCH="factory/${{ inputs.domain_id }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+
+          git add \
+            "research/srpc/${{ inputs.domain_id }}"
+
+          git commit \
+            -m "Factory: create SRPC domain ${{ inputs.domain_id }}"
+
+          git push origin "$BRANCH"
+
+          echo "Factory branch created:"
+          echo "$BRANCH"
