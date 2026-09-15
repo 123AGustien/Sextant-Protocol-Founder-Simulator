@@ -1,3 +1,14 @@
+
+the edge simulator is for ai companies
+
+the grid simulator is the working modules of the domain
+
+the sextant protocol resilience core (srpc) is the working modules simulator core. core
+
+once the system is working
+
+than we intergrate with primary secondary stabaliser human in the loop doctrine 
+
 Best safe method
 Since your GitHub Pages version is currently working, the safest approach is:
 On GitHub, open the domain/grid-module-dpa branch.
