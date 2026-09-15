@@ -1,0 +1,28 @@
+name: Create SRPC Technology Domain Simulator
+
+"on":
+  workflow_dispatch:
+    inputs:
+      domain_id:
+        description: "Domain ID"
+        required: true
+        type: string
+
+      domain_name:
+        description: "Domain name"
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate workflow
+        run: |
+          echo "SRPC Technology Domain Simulator workflow is valid."
+          echo "Domain ID: ${{ inputs.domain_id }}"
+          echo "Domain Name: ${{ inputs.domain_name }}"
