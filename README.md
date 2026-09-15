@@ -11,6 +11,10 @@ Grid ScenarioTest
 current SRPC research architecture can also be examined directly through the following test interfaces:
 
 
+Edge Optimization & Deployment Validation Cockpit
+
+Edge Optimization & Deployment Validation Cockpit
+https://123agustien.github.io/Sextant-Protocol-Cockpit-Pro-Edge-Optimization-Validation/
 
 
 
