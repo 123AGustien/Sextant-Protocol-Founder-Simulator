@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Sextant Protocol™ — Grid Module Simulator</title>
+
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      margin-top: 30px;
+    }
+
+    .panel {
+      background: #ffffff;
+      padding: 20px;
+      margin-top: 15px;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+    }
+
+    .status {
+      font-weight: bold;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      background: #eeeeee;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 18px;
+      margin: 5px 5px 5px 0;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: #111111;
+      color: #ffffff;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    .safety {
+      line-height: 1.7;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Sextant Protocol™</h1>
+
+    <h2>Grid Energy Resilience Module</h2>
+
+    <p>
+      Deterministic local research simulator for Grid
+      Energy Resilience.
+    </p>
+
+    <div class="panel">
+
+      <div id="grid-status" class="status">
+        INITIALIZING
+      </div>
+
+      <button id="grid-run-button">
+        RUN SRPC PROCESSING
+      </button>
+
+      <button id="grid-determinism-button">
+        TEST DETERMINISM
+      </button>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Safety Boundary</h2>
+
+      <div class="safety">
+
+        <div>Local deterministic: TRUE</div>
+
+        <div>Backend connection: FALSE</div>
+
+        <div>External connection: FALSE</div>
+
+        <div>Physical execution: FALSE</div>
+
+        <div>Autonomous actuation: FALSE</div>
+
+        <div>Human authorization required: TRUE</div>
+
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Golden Rule</h2>
+
+      <p>
+        OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+      </p>
+
+      <p>
+        Captain AI Lena provides decision-support only.
+        Human Decision Authority remains final.
+      </p>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>SRPC Processing Output</h2>
+
+      <pre id="grid-output">Awaiting processing...</pre>
+
+    </div>
+
+  </div>
+
+  <script src="../../srpcKernel.js"></script>
+  <script src="../../srpcRules.js"></script>
+  <script src="../../srpcCompute.js"></script>
+
+  <script src="ScenarioData.js"></script>
+  <script src="Rules.js"></script>
+  <script src="ScenarioRules.js"></script>
+  <script src="RuleEngine.js"></script>
+  <script src="Scenario.js"></script>
+  <script src="ScenarioRuleEngine.js"></script>
+  <script src="ScenarioEngine.js"></script>
+  <script src="ScenarioCompute.js"></script>
+  <script src="DomainIntegration.js"></script>
+  <script src="Module.js"></script>
+  <script src="GridSimulatorUI.js"></script>
+
+  <script>
+
+    window.addEventListener("DOMContentLoaded", function () {
+
+      if (window.SextantGridSimulatorUI) {
+        window.SextantGridSimulatorUI.init();
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
