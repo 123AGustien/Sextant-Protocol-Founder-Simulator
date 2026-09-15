@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Sextant Protocol™ — FIN Financial Resilience Simulator</title>
+
+<style>
+
+    body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background: #0b0f14;
+        color: #e8edf2;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    h1 {
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    .subtitle {
+        color: #aab4bf;
+        margin-bottom: 25px;
+    }
+
+    .panel {
+        background: #141b23;
+        border: 1px solid #2b3744;
+        border-radius: 10px;
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    select,
+    textarea,
+    button {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 16px;
+        border-radius: 7px;
+        border: 1px solid #394858;
+        padding: 11px;
+        background: #0f151c;
+        color: #ffffff;
+    }
+
+    textarea {
+        min-height: 130px;
+        resize: vertical;
+        font-family: monospace;
+    }
+
+    button {
+        margin-top: 12px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #1d2834;
+    }
+
+    .status {
+        padding: 12px;
+        border-radius: 7px;
+        background: #0f151c;
+        border: 1px solid #394858;
+        margin-top: 10px;
+        white-space: pre-wrap;
+    }
+
+    .output {
+        min-height: 260px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+        font-family: monospace;
+        background: #080c11;
+        padding: 15px;
+        border-radius: 7px;
+        border: 1px solid #303b47;
+    }
+
+    .safety {
+        line-height: 1.6;
+        color: #c9d2db;
+    }
+
+    .architecture {
+        line-height: 1.7;
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>SEXTANT PROTOCOL™</h1>
+
+    <h2>FIN — Financial Resilience Simulator</h2>
+
+    <div class="subtitle">
+        Deterministic Domain Simulation • SRPC Architecture • Research Use
+    </div>
+
+
+    <div class="panel architecture">
+
+        <strong>Golden Rule</strong><br>
+
+        OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+
+        <br><br>
+
+        <strong>Architecture</strong><br>
+
+        DATA → ALGORITHMS → COMPUTE
+
+        <br><br>
+
+        FIN Domain:
+        Scenario Data → Scenario Rules → Rule Engine →
+        Scenario Rule Engine → Scenario Engine →
+        Domain Integration → FIN Module
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>FIN Scenario Controls</h3>
+
+        <label for="scenarioSelect">
+            Financial Scenario
+        </label>
+
+        <select id="scenarioSelect">
+
+            <option value="FIN-001">
+                FIN-001 — FX Stress (SGD/IDR)
+            </option>
+
+            <option value="FIN-002">
+                FIN-002 — Bond Outflow Stress
+            </option>
+
+            <option value="FIN-003">
+                FIN-003 — Liquidity Stress
+            </option>
+
+            <option value="FIN-004">
+                FIN-004 — Banking Stress
+            </option>
+
+            <option value="FIN-005">
+                FIN-005 — Inflation Shock
+            </option>
+
+        </select>
+
+
+        <label for="riskStateSelect">
+            Risk State
+        </label>
+
+        <select id="riskStateSelect">
+
+            <option value="GREEN">
+                GREEN
+            </option>
+
+            <option value="YELLOW">
+                YELLOW
+            </option>
+
+            <option value="ORANGE">
+                ORANGE
+            </option>
+
+            <option value="RED">
+                RED
+            </option>
+
+        </select>
+
+
+        <label for="inputData">
+            Optional Scenario Inputs
+        </label>
+
+        <textarea
+            id="inputData"
+            placeholder='Example:
+{
+    "exchangeRate": 13990,
+    "fxVolatility": 2.5
+}'
+        ></textarea>
+
+
+        <button id="runButton">
+            RUN FIN SCENARIO
+        </button>
+
+        <button id="determinismButton">
+            RUN DETERMINISM TEST
+        </button>
+
+        <button id="validationButton">
+            RUN VALIDATION
+        </button>
+
+        <button id="detailsButton">
+            SHOW SCENARIO DETAILS
+        </button>
+
+        <button id="resetButton">
+            RESET
+        </button>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>System Status</h3>
+
+        <div
+            id="statusOutput"
+            class="status"
+        >
+            Initialising FIN domain...
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>Simulation Output</h3>
+
+        <div
+            id="output"
+            class="output"
+        >
+            No simulation executed.
+        </div>
+
+    </div>
+
+
+    <div class="panel safety">
+
+        <h3>Safety Boundary</h3>
+
+        <ul>
+
+            <li>
+                Local deterministic research simulation only.
+            </li>
+
+            <li>
+                No banking transaction execution.
+            </li>
+
+            <li>
+                No market execution.
+            </li>
+
+            <li>
+                No monetary-policy execution.
+            </li>
+
+            <li>
+                No external financial-system connection.
+            </li>
+
+            <li>
+                No physical execution.
+            </li>
+
+            <li>
+                No autonomous financial authority.
+            </li>
+
+            <li>
+                ACT represents simulated contingency action only.
+            </li>
+
+            <li>
+                Human Decision Authority remains final.
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FIN DOMAIN DEPENDENCIES
+     ========================================================= -->
+
+<script src="./FINScenarioData.js"></script>
+<script src="./FINRules.js"></script>
+<script src="./FINScenarioRules.js"></script>
+<script src="./FINRuleEngine.js"></script>
+<script src="./FINScenario.js"></script>
+<script src="./FINScenarioRuleEngine.js"></script>
+<script src="./FINScenarioEngine.js"></script>
+<script src="./FINDomainIntegration.js"></script>
+<script src="./FINModule.js"></script>
+
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    const statusOutput =
+        document.getElementById("statusOutput");
+
+    const output =
+        document.getElementById("output");
+
+    const scenarioSelect =
+        document.getElementById("scenarioSelect");
+
+    const riskStateSelect =
+        document.getElementById("riskStateSelect");
+
+    const inputData =
+        document.getElementById("inputData");
+
+
+    function setStatus(message) {
+
+        statusOutput.textContent = message;
+
+    }
+
+
+    function setOutput(data) {
+
+        output.textContent =
+            typeof data === "string"
+                ? data
+                : JSON.stringify(data, null, 2);
+
+    }
+
+
+    function getInput() {
+
+        const text =
+            inputData.value.trim();
+
+        if (!text) {
+            return {};
+        }
+
+        try {
+
+            return JSON.parse(text);
+
+        } catch (error) {
+
+            throw new Error(
+                "Invalid JSON input: " +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    function getSelectedScenario() {
+
+        return scenarioSelect.value;
+
+    }
+
+
+    function getSelectedRiskState() {
+
+        return riskStateSelect.value;
+
+    }
+
+
+    function validateDependencies() {
+
+        const required = [
+
+            "FINScenarioData",
+            "FINRules",
+            "FINScenarioRules",
+            "FINRuleEngine",
+            "FINScenario",
+            "FINScenarioRuleEngine",
+            "FINScenarioEngine",
+            "FINDomainIntegration",
+            "FINModule"
+
+        ];
+
+        const missing = [];
+
+        required.forEach(function (name) {
+
+            if (!window[name]) {
+                missing.push(name);
+            }
+
+        });
+
+        return {
+
+            valid: missing.length === 0,
+
+            missing: missing
+
+        };
+
+    }
+
+
+    function runScenario() {
+
+        try {
+
+            const scenarioId =
+                getSelectedScenario();
+
+            const riskState =
+                getSelectedRiskState();
+
+            const input =
+                getInput();
+
+
+            const result =
+                window.FINDomainIntegration.process(
+                    scenarioId,
+                    riskState,
+                    input
+                );
+
+
+            setStatus(
+                "FIN SCENARIO EXECUTED\n" +
+                "Scenario: " + scenarioId + "\n" +
+                "Risk State: " + riskState + "\n" +
+                "Simulation Only: YES\n" +
+                "Human Decision Authority: FINAL"
+            );
+
+
+            setOutput(result);
+
+        } catch (error) {
+
+            setStatus(
+                "FIN SCENARIO ERROR"
+            );
+
+            setOutput({
+                error: error.message
+            });
+
+        }
+
+    }
+
+
+    function runDeterminism() {
+
+        try {
+
+            const scenarioId =
+                getSelectedScenario();
+
+            const riskState =
+                getSelectedRiskState();
+
+            const input =
+                getInput();
+
+
+            const result =
+                window.FINDomainIntegration.testDeterminism(
+                    scenarioId,
+                    riskState,
+                    input
+                );
+
+
+            setStatus(
+                result.deterministic
+                    ? "DETERMINISM TEST: PASS"
+                    : "DETERMINISM TEST: FAIL"
+            );
+
+
+            setOutput(result);
+
+        } catch (error) {
+
+            setStatus(
+                "DETERMINISM TEST ERROR"
+            );
+
+            setOutput({
+                error: error.message
+            });
+
+        }
+
+    }
+
+
+    function runValidation() {
+
+        try {
+
+            const dependencyResult =
+                validateDependencies();
+
+
+            const moduleValid =
+                window.FINModule.validate();
+
+
+            const integrationStatus =
+                window.FINDomainIntegration.getStatus();
+
+
+            const engineStatus =
+                window.FINScenarioEngine.getStatus();
+
+
+            const result = {
+
+                dependencies:
+                    dependencyResult,
+
+                moduleValid:
+                    moduleValid,
+
+                integration:
+                    integrationStatus,
+
+                scenarioEngine:
+                    engineStatus,
+
+                overallValid:
+                    dependencyResult.valid &&
+                    moduleValid &&
+                    integrationStatus.valid &&
+                    engineStatus.valid
+
+            };
+
+
+            setStatus(
+                result.overallValid
+                    ? "VALIDATION: PASS"
+                    : "VALIDATION: FAIL"
+            );
+
+
+            setOutput(result);
+
+        } catch (error) {
+
+            setStatus(
+                "VALIDATION ERROR"
+            );
+
+            setOutput({
+                error: error.message
+            });
+
+        }
+
+    }
+
+
+    function showScenarioDetails() {
+
+        try {
+
+            const scenarioId =
+                getSelectedScenario();
+
+
+            const scenario =
+                window.FINScenarioData.getScenario(
+                    scenarioId
+                );
+
+
+            setStatus(
+                "SCENARIO DETAILS\n" +
+                scenarioId
+            );
+
+
+            setOutput(scenario);
+
+        } catch (error) {
+
+            setStatus(
+                "SCENARIO DETAILS ERROR"
+            );
+
+            setOutput({
+                error: error.message
+            });
+
+        }
+
+    }
+
+
+    function resetSimulator() {
+
+        try {
+
+            if (
+                window.FINScenario &&
+                typeof window.FINScenario.reset === "function"
+            ) {
+                window.FINScenario.reset();
+            }
+
+
+            scenarioSelect.value =
+                "FIN-001";
+
+            riskStateSelect.value =
+                "GREEN";
+
+            inputData.value = "";
+
+
+            setStatus(
+                "FIN simulator reset."
+            );
+
+
+            setOutput(
+                "No simulation executed."
+            );
+
+        } catch (error) {
+
+            setStatus(
+                "RESET ERROR"
+            );
+
+            setOutput({
+                error: error.message
+            });
+
+        }
+
+    }
+
+
+    document
+        .getElementById("runButton")
+        .addEventListener(
+            "click",
+            runScenario
+        );
+
+
+    document
+        .getElementById("determinismButton")
+        .addEventListener(
+            "click",
+            runDeterminism
+        );
+
+
+    document
+        .getElementById("validationButton")
+        .addEventListener(
+            "click",
+            runValidation
+        );
+
+
+    document
+        .getElementById("detailsButton")
+        .addEventListener(
+            "click",
+            showScenarioDetails
+        );
+
+
+    document
+        .getElementById("resetButton")
+        .addEventListener(
+            "click",
+            resetSimulator
+        );
+
+
+    try {
+
+        const dependencyResult =
+            validateDependencies();
+
+
+        if (dependencyResult.valid) {
+
+            setStatus(
+                "FIN DOMAIN READY\n" +
+                "All dependencies loaded.\n" +
+                "Simulation boundary active.\n" +
+                "Human Decision Authority: FINAL"
+            );
+
+        } else {
+
+            setStatus(
+                "FIN DOMAIN DEPENDENCY ERROR\n" +
+                "Missing: " +
+                dependencyResult.missing.join(", ")
+            );
+
+        }
+
+    } catch (error) {
+
+        setStatus(
+            "FIN INITIALISATION ERROR\n" +
+            error.message
+        );
+
+    }
+
+})();
+
+</script>
+
+</body>
+
+</html>
