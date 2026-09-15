@@ -1,0 +1,597 @@
+name: Create SRPC Technology Domain Simulator
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain_name:
+        description: "Technology or company domain name"
+        required: true
+        type: string
+
+      domain_id:
+        description: "Domain ID using lowercase letters, numbers and hyphens"
+        required: true
+        type: string
+
+      confirm_create:
+        description: "Manual lever — confirm domain creation"
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  create-domain:
+
+    if: ${{ inputs.confirm_create == true }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify protected SRPC foundation
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking protected SRPC foundation..."
+
+          REQUIRED_FILES=(
+            "research/srpc/srpcKernel.js"
+            "research/srpc/srpcRules.js"
+            "research/srpc/srpcCompute.js"
+            "research/srpc/srpcTest.html"
+          )
+
+          for FILE in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$FILE" ]; then
+              echo "ERROR: Protected file missing:"
+              echo "$FILE"
+              exit 1
+            fi
+
+            echo "FOUND: $FILE"
+          done
+
+          echo "Protected SRPC foundation verified."
+
+      - name: Validate domain ID
+        shell: bash
+        env:
+          DOMAIN_ID: ${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          if [[ ! "$DOMAIN_ID" =~ ^[a-z0-9-]+$ ]]; then
+            echo "ERROR: Invalid domain ID."
+            echo "Use lowercase letters, numbers and hyphens only."
+            exit 1
+          fi
+
+          echo "Domain ID validated: $DOMAIN_ID"
+
+      - name: Check domain does not already exist
+        shell: bash
+        env:
+          DOMAIN_ID: ${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${DOMAIN_ID}"
+
+          if [ -d "$DOMAIN_DIR" ]; then
+            echo "ERROR: Domain already exists:"
+            echo "$DOMAIN_DIR"
+            exit 1
+          fi
+
+          echo "Domain is available: $DOMAIN_DIR"
+
+      - name: Create domain directory
+        shell: bash
+        env:
+          DOMAIN_ID: ${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          mkdir -p "research/srpc/${DOMAIN_ID}"
+
+      - name: Create ScenarioData.js
+        shell: bash
+        env:
+          DOMAIN_NAME: ${{ inputs.domain_name }}
+          DOMAIN_ID: ${{ inputs.domain_id }}
+          DOMAIN_DIR: research/srpc/${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          python3 -c 'import os; from pathlib import Path; Path(os.environ["DOMAIN_DIR"]).mkdir(parents=True, exist_ok=True); Path(os.path.join(os.environ["DOMAIN_DIR"], "ScenarioData.js")).write_text("""\"use strict\";
+
+/*
+ * Sextant Protocol™
+ * SRPC Technology Domain Scenario Data
+ *
+ * PURPOSE:
+ * Provide deterministic domain-specific research data.
+ *
+ * SAFETY:
+ * - Local research simulation only
+ * - No backend connection
+ * - No external connection
+ * - No physical execution
+ * - No autonomous actuation
+ * - Human authority remains external
+ */
+
+const SRPC_SCENARIO_DATA = {
+
+    domainName: %r,
+    domainId: %r,
+
+    source: "LOCAL_SIMULATION",
+    purpose: "SRPC_TECHNOLOGY_DOMAIN_RESEARCH",
+
+    systemState: {
+        status: "INITIALIZED",
+        resilienceScore: 0
+    }
+};
+
+window.SRPCScenarioData = SRPC_SCENARIO_DATA;
+""" % (os.environ["DOMAIN_NAME"], os.environ["DOMAIN_ID"]), encoding="utf-8")'
+
+      - name: Create Rules.js
+        shell: bash
+        env:
+          DOMAIN_NAME: ${{ inputs.domain_name }}
+          DOMAIN_ID: ${{ inputs.domain_id }}
+          DOMAIN_DIR: research/srpc/${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          python3 -c 'import os; from pathlib import Path; Path(os.path.join(os.environ["DOMAIN_DIR"], "Rules.js")).write_text("""\"use strict\";
+
+/*
+ * Sextant Protocol™
+ * SRPC Technology Domain Rules
+ *
+ * Domain rules remain separate from
+ * the protected SRPC foundation.
+ */
+
+const SRPC_SCENARIO_RULES = {
+
+    domainName: %r,
+
+    evaluate: function (systemState) {
+
+        if (
+            !systemState ||
+            typeof systemState !== "object"
+        ) {
+            return {
+                passed: false,
+                result: "SYSTEM_STATE_INVALID"
+            };
+        }
+
+        return {
+            passed: true,
+            result: "DOMAIN_INPUT_VALID"
+        };
+    }
+};
+
+window.SRPCScenarioRules = SRPC_SCENARIO_RULES;
+""" % os.environ["DOMAIN_NAME"], encoding="utf-8")'
+
+      - name: Create ScenarioCompute.js
+        shell: bash
+        env:
+          DOMAIN_ID: ${{ inputs.domain_id }}
+          DOMAIN_DIR: research/srpc/${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          python3 -c 'import os; from pathlib import Path; Path(os.path.join(os.environ["DOMAIN_DIR"], "ScenarioCompute.js")).write_text("""\"use strict\";
+
+/*
+ * Sextant Protocol™
+ * SRPC Technology Domain Scenario Compute Adapter
+ *
+ * PURPOSE:
+ * Provide the domain-level compute interface while
+ * preserving the protected SRPC foundation.
+ *
+ * DOCTRINE:
+ * DATA → ALGORITHMS → COMPUTE
+ *
+ * The domain adapter delegates processing to
+ * the protected SRPC Compute API.
+ *
+ * SAFETY:
+ * - No replacement of SRPCKernel.
+ * - No replacement of SRPCRules.
+ * - No replacement of SRPCCompute.
+ * - No backend connection.
+ * - No external connection.
+ * - No physical execution.
+ * - No autonomous actuation.
+ * - Human authority remains external.
+ */
+
+const SEXTANT_SCENARIO_COMPUTE_VERSION =
+    "0.1.0-RESEARCH";
+
+function validateScenarioComputeDependencies() {
+
+    const srpcComputeAvailable =
+        typeof window.SRPCCompute !== "undefined";
+
+    const srpcKernelAvailable =
+        typeof window.SRPCKernel !== "undefined";
+
+    const srpcRulesAvailable =
+        typeof window.SRPCRules !== "undefined";
+
+    return {
+
+        valid:
+            srpcComputeAvailable &&
+            srpcKernelAvailable &&
+            srpcRulesAvailable,
+
+        srpcComputeAvailable:
+            srpcComputeAvailable,
+
+        srpcKernelAvailable:
+            srpcKernelAvailable,
+
+        srpcRulesAvailable:
+            srpcRulesAvailable
+    };
+}
+
+function executeScenarioCompute(input) {
+
+    const dependencies =
+        validateScenarioComputeDependencies();
+
+    if (!dependencies.valid) {
+
+        return {
+
+            scenarioComputeVersion:
+                SEXTANT_SCENARIO_COMPUTE_VERSION,
+
+            executed: false,
+
+            dependencies:
+                dependencies,
+
+            output: null,
+
+            error:
+                "Protected SRPC Compute dependencies are unavailable.",
+
+            physicalExecution: false,
+            backendConnection: false,
+            externalConnection: false,
+            autonomousActuation: false,
+            humanAuthorizationRequired: true
+        };
+    }
+
+    const result =
+        window.SRPCCompute.execute(input);
+
+    return {
+
+        scenarioComputeVersion:
+            SEXTANT_SCENARIO_COMPUTE_VERSION,
+
+        executed:
+            result.executed,
+
+        deterministic:
+            result.deterministic,
+
+        computeVersion:
+            result.computeVersion,
+
+        kernelVersion:
+            result.kernelVersion,
+
+        kernelOutput:
+            result.kernelOutput,
+
+        error:
+            result.error || null,
+
+        dependencies:
+            dependencies,
+
+        physicalExecution: false,
+        backendConnection: false,
+        externalConnection: false,
+        autonomousActuation: false,
+        humanAuthorizationRequired: true
+    };
+}
+
+function testScenarioComputeDeterminism(input) {
+
+    const dependencies =
+        validateScenarioComputeDependencies();
+
+    if (!dependencies.valid) {
+
+        return {
+
+            scenarioComputeVersion:
+                SEXTANT_SCENARIO_COMPUTE_VERSION,
+
+            deterministic: false,
+
+            status:
+                "SCENARIO_COMPUTE_DEPENDENCY_FAILURE",
+
+            dependencies:
+                dependencies,
+
+            physicalExecution: false,
+            backendConnection: false,
+            externalConnection: false,
+            autonomousActuation: false,
+            humanAuthorizationRequired: true
+        };
+    }
+
+    const result =
+        window.SRPCCompute.testDeterminism(input);
+
+    return {
+
+        scenarioComputeVersion:
+            SEXTANT_SCENARIO_COMPUTE_VERSION,
+
+        deterministic:
+            result.deterministic,
+
+        status:
+            result.deterministic
+                ? "SCENARIO_COMPUTE_DETERMINISM_PASS"
+                : "SCENARIO_COMPUTE_DETERMINISM_FAIL",
+
+        computeVersion:
+            result.computeVersion,
+
+        firstOutput:
+            result.firstOutput,
+
+        secondOutput:
+            result.secondOutput,
+
+        dependencies:
+            dependencies,
+
+        physicalExecution: false,
+        backendConnection: false,
+        externalConnection: false,
+        autonomousActuation: false,
+        humanAuthorizationRequired: true
+    };
+}
+
+function getScenarioComputeStatus() {
+
+    const dependencies =
+        validateScenarioComputeDependencies();
+
+    let protectedComputeStatus = null;
+
+    if (
+        dependencies.srpcComputeAvailable &&
+        typeof window.SRPCCompute.getStatus === "function"
+    ) {
+        protectedComputeStatus =
+            window.SRPCCompute.getStatus();
+    }
+
+    return {
+
+        scenarioComputeVersion:
+            SEXTANT_SCENARIO_COMPUTE_VERSION,
+
+        ready:
+            dependencies.valid,
+
+        dependencies:
+            dependencies,
+
+        protectedSRPCCompute:
+            protectedComputeStatus,
+
+        physicalExecution: false,
+        backendConnection: false,
+        externalConnection: false,
+        autonomousActuation: false,
+        humanAuthorizationRequired: true
+    };
+}
+
+window.SextantScenarioCompute = {
+
+    version:
+        SEXTANT_SCENARIO_COMPUTE_VERSION,
+
+    validateDependencies:
+        validateScenarioComputeDependencies,
+
+    execute:
+        executeScenarioCompute,
+
+    testDeterminism:
+        testScenarioComputeDeterminism,
+
+    getStatus:
+        getScenarioComputeStatus
+};
+""", encoding="utf-8")'
+
+      - name: Create ScenarioTest.html
+        shell: bash
+        env:
+          DOMAIN_NAME: ${{ inputs.domain_name }}
+          DOMAIN_ID: ${{ inputs.domain_id }}
+          DOMAIN_DIR: research/srpc/${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          python3 -c 'import os; from pathlib import Path; Path(os.path.join(os.environ["DOMAIN_DIR"], "ScenarioTest.html")).write_text("""<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SRPC Domain Test — %s
+    </title>
+
+</head>
+
+<body>
+
+    <h1>Sextant Protocol™ SRPC Technology Domain Simulator</h1>
+
+    <h2>%s</h2>
+
+    <pre id="output">Running...</pre>
+
+    <script src="../srpcKernel.js"></script>
+    <script src="../srpcRules.js"></script>
+    <script src="../srpcCompute.js"></script>
+
+    <script src="./ScenarioData.js"></script>
+    <script src="./Rules.js"></script>
+    <script src="./ScenarioCompute.js"></script>
+
+    <script>
+
+        "use strict";
+
+        const input = {
+
+            source:
+                SRPCScenarioData.source,
+
+            purpose:
+                SRPCScenarioData.purpose,
+
+            timestamp:
+                "STATIC_TEST_TIMESTAMP",
+
+            systemState: {
+                ...SRPCScenarioData.systemState
+            }
+
+        };
+
+        const result =
+            window.SextantScenarioCompute
+                .execute(input);
+
+        document.getElementById("output")
+            .textContent =
+                JSON.stringify(
+                    result,
+                    null,
+                    2
+                );
+
+    </script>
+
+</body>
+
+</html>
+""" % (os.environ["DOMAIN_NAME"], os.environ["DOMAIN_NAME"]), encoding="utf-8")'
+
+      - name: Verify generated files
+        shell: bash
+        env:
+          DOMAIN_ID: ${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${DOMAIN_ID}"
+
+          REQUIRED_DOMAIN_FILES=(
+            "$DOMAIN_DIR/ScenarioData.js"
+            "$DOMAIN_DIR/Rules.js"
+            "$DOMAIN_DIR/ScenarioCompute.js"
+            "$DOMAIN_DIR/ScenarioTest.html"
+          )
+
+          for FILE in "${REQUIRED_DOMAIN_FILES[@]}"; do
+
+            if [ ! -f "$FILE" ]; then
+              echo "ERROR: Generated file missing:"
+              echo "$FILE"
+              exit 1
+            fi
+
+            echo "VERIFIED: $FILE"
+
+          done
+
+          echo "All generated files verified."
+
+      - name: Verify protected foundation unchanged
+        shell: bash
+        run: |
+          set -e
+
+          git diff --exit-code -- \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+
+          echo "Protected SRPC foundation unchanged."
+
+      - name: Create factory branch
+        shell: bash
+        env:
+          DOMAIN_ID: ${{ inputs.domain_id }}
+        run: |
+          set -e
+
+          BRANCH="factory/${DOMAIN_ID}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+
+          git add \
+            "research/srpc/${DOMAIN_ID}"
+
+          git commit \
+            -m "Factory: create SRPC domain ${DOMAIN_ID}"
+
+          git push origin "$BRANCH"
+
+          echo "Factory branch created:"
+          echo "$BRANCH"
