@@ -1,0 +1,371 @@
+name: Create SRPC Technology Domain Simulator
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain_name:
+        description: "Technology or company domain name"
+        required: true
+        type: string
+
+      domain_id:
+        description: "Domain ID using lowercase letters, numbers and hyphens"
+        required: true
+        type: string
+
+      confirm_create:
+        description: "Manual lever — confirm domain creation"
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  create-domain:
+    if: ${{ inputs.confirm_create == true }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      # ------------------------------------------------------------
+      # 1. CHECKOUT
+      # ------------------------------------------------------------
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------
+      # 2. VERIFY PROTECTED SRPC FOUNDATION
+      # ------------------------------------------------------------
+
+      - name: Verify protected SRPC foundation
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking protected SRPC foundation..."
+
+          for FILE in \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+          do
+            if [ ! -f "$FILE" ]; then
+              echo "ERROR: Protected file missing: $FILE"
+              exit 1
+            fi
+
+            echo "FOUND: $FILE"
+          done
+
+          echo "Protected SRPC foundation verified."
+
+      # ------------------------------------------------------------
+      # 3. VALIDATE DOMAIN ID
+      # ------------------------------------------------------------
+
+      - name: Validate domain ID
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_ID="${{ inputs.domain_id }}"
+
+          if [[ ! "$DOMAIN_ID" =~ ^[a-z0-9-]+$ ]]; then
+            echo "ERROR: Invalid domain ID."
+            echo "Use lowercase letters, numbers and hyphens only."
+            exit 1
+          fi
+
+          echo "Domain ID validated: $DOMAIN_ID"
+
+      # ------------------------------------------------------------
+      # 4. CHECK DOMAIN DOES NOT ALREADY EXIST
+      # ------------------------------------------------------------
+
+      - name: Check domain
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          if [ -d "$DOMAIN_DIR" ]; then
+            echo "ERROR: Domain already exists:"
+            echo "$DOMAIN_DIR"
+            exit 1
+          fi
+
+          echo "Domain available: $DOMAIN_DIR"
+
+      # ------------------------------------------------------------
+      # 5. VERIFY CANONICAL 11-FILE ARCHITECTURE
+      #
+      # research/srpc/domain/ is the architecture source of truth.
+      #
+      # DO NOT maintain a second reduced four-file template.
+      # ------------------------------------------------------------
+
+      - name: Verify canonical domain architecture
+        shell: bash
+        run: |
+          set -e
+
+          TEMPLATE_DIR="research/srpc/domain"
+
+          echo "Checking canonical SRPC domain architecture..."
+
+          for FILE in \
+            DomainIntegration.js \
+            Module.js \
+            RuleEngine.js \
+            Rules.js \
+            Scenario.js \
+            ScenarioCompute.js \
+            ScenarioData.js \
+            ScenarioEngine.js \
+            ScenarioRuleEngine.js \
+            ScenarioRules.js \
+            ScenarioTest.html
+          do
+            if [ ! -f "$TEMPLATE_DIR/$FILE" ]; then
+              echo "ERROR: Canonical domain file missing:"
+              echo "$TEMPLATE_DIR/$FILE"
+              exit 1
+            fi
+
+            echo "FOUND: $TEMPLATE_DIR/$FILE"
+          done
+
+          echo "Canonical 11-file domain architecture verified."
+
+      # ------------------------------------------------------------
+      # 6. CREATE DOMAIN DIRECTORY
+      # ------------------------------------------------------------
+
+      - name: Create domain directory
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          mkdir -p "$DOMAIN_DIR"
+
+          echo "Created:"
+          echo "$DOMAIN_DIR"
+
+      # ------------------------------------------------------------
+      # 7. COPY COMPLETE 11-FILE DOMAIN ARCHITECTURE
+      # ------------------------------------------------------------
+
+      - name: Copy complete domain architecture
+        shell: bash
+        run: |
+          set -e
+
+          TEMPLATE_DIR="research/srpc/domain"
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          for FILE in \
+            DomainIntegration.js \
+            Module.js \
+            RuleEngine.js \
+            Rules.js \
+            Scenario.js \
+            ScenarioCompute.js \
+            ScenarioData.js \
+            ScenarioEngine.js \
+            ScenarioRuleEngine.js \
+            ScenarioRules.js \
+            ScenarioTest.html
+          do
+            cp "$TEMPLATE_DIR/$FILE" "$DOMAIN_DIR/$FILE"
+            echo "COPIED: $FILE"
+          done
+
+          echo "Complete 11-file domain architecture copied."
+
+      # ------------------------------------------------------------
+      # 8. CREATE DOMAIN METADATA
+      #
+      # Only ScenarioData receives the new domain identity.
+      # Architecture wiring remains unchanged.
+      # ------------------------------------------------------------
+
+      - name: Configure domain metadata
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          python3 <<PY
+          from pathlib import Path
+
+          path = Path("$DOMAIN_DIR/ScenarioData.js")
+          text = path.read_text()
+
+          text = text.replace(
+              'domainName: "technology-domain"',
+              'domainName: "${{ inputs.domain_name }}"'
+          )
+
+          text = text.replace(
+              'domainId: "technology-domain"',
+              'domainId: "${{ inputs.domain_id }}"'
+          )
+
+          path.write_text(text)
+          PY
+
+          echo "Domain metadata configured."
+
+      # ------------------------------------------------------------
+      # 9. UPDATE TEST TITLE
+      # ------------------------------------------------------------
+
+      - name: Configure domain test harness
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          python3 <<PY
+          from pathlib import Path
+
+          path = Path("$DOMAIN_DIR/ScenarioTest.html")
+          text = path.read_text()
+
+          text = text.replace(
+              "SRPC Technology Domain Simulator",
+              "SRPC Technology Domain Simulator — ${{ inputs.domain_name }}"
+          )
+
+          path.write_text(text)
+          PY
+
+          echo "ScenarioTest.html configured."
+
+      # ------------------------------------------------------------
+      # 10. VERIFY ALL 11 DOMAIN FILES
+      # ------------------------------------------------------------
+
+      - name: Verify generated domain
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          echo "Verifying generated domain..."
+
+          for FILE in \
+            DomainIntegration.js \
+            Module.js \
+            RuleEngine.js \
+            Rules.js \
+            Scenario.js \
+            ScenarioCompute.js \
+            ScenarioData.js \
+            ScenarioEngine.js \
+            ScenarioRuleEngine.js \
+            ScenarioRules.js \
+            ScenarioTest.html
+          do
+            if [ ! -f "$DOMAIN_DIR/$FILE" ]; then
+              echo "ERROR: Generated file missing:"
+              echo "$DOMAIN_DIR/$FILE"
+              exit 1
+            fi
+
+            echo "VERIFIED: $DOMAIN_DIR/$FILE"
+          done
+
+          FILE_COUNT=$(find "$DOMAIN_DIR" -maxdepth 1 -type f | wc -l)
+
+          if [ "$FILE_COUNT" -ne 11 ]; then
+            echo "ERROR: Expected 11 domain files."
+            echo "Found: $FILE_COUNT"
+            exit 1
+          fi
+
+          echo "Generated domain contains exactly 11 architecture files."
+
+      # ------------------------------------------------------------
+      # 11. VERIFY PROTECTED FOUNDATION HAS NOT CHANGED
+      # ------------------------------------------------------------
+
+      - name: Verify protected foundation unchanged
+        shell: bash
+        run: |
+          set -e
+
+          git diff --exit-code -- \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+
+          echo "Protected SRPC foundation unchanged."
+
+      # ------------------------------------------------------------
+      # 12. VERIFY FACTORY CHANGE SCOPE
+      #
+      # The Factory may create only:
+      #
+      # research/srpc/<domain_id>/*
+      #
+      # Existing architecture and foundation must remain untouched.
+      # ------------------------------------------------------------
+
+      - name: Verify factory change scope
+        shell: bash
+        run: |
+          set -e
+
+          DOMAIN_DIR="research/srpc/${{ inputs.domain_id }}"
+
+          UNEXPECTED=$(git status --short | \
+            grep -v "^?? ${DOMAIN_DIR}/" || true)
+
+          if [ -n "$UNEXPECTED" ]; then
+            echo "ERROR: Unexpected repository changes detected:"
+            echo "$UNEXPECTED"
+            exit 1
+          fi
+
+          echo "Factory change scope verified."
+
+      # ------------------------------------------------------------
+      # 13. CREATE FACTORY BRANCH
+      # ------------------------------------------------------------
+
+      - name: Create factory branch
+        shell: bash
+        run: |
+          set -e
+
+          BRANCH="factory/${{ inputs.domain_id }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+
+          git add \
+            "research/srpc/${{ inputs.domain_id }}"
+
+          git commit \
+            -m "Factory: create SRPC domain ${{ inputs.domain_id }}"
+
+          git push origin "$BRANCH"
+
+          echo "Factory branch created:"
+          echo "$BRANCH"
