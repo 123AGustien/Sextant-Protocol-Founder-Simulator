@@ -1,6 +1,7 @@
 domain/grid-module-dpa branch of:
 Sextant Protocol Founder Simulator — Grid Domain
 
+Your site is live at https://123agustien.github.io/Sextant-Protocol-Founder-Simulator/
 the edge simulator is for ai companies
 
 the grid simulator is the working modules of the domain
