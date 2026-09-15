@@ -8,6 +8,14 @@ Sextant-SRPC-Factory-MASTER-domain-grid-module-dpa.zip
 The target URL should be:
 Grid ScenarioTest
 
+current SRPC research architecture can also be examined directly through the following test interfaces:
+
+Grid Domain ScenarioTest
+https://123agustien.github.io/Sextant-SRPC-Technology-Domain-Simulator-Factory/research/srpc/domain/grid/ScenarioTest.html
+
+Protected SRPC Research Test
+https://123AGustien.github.io/Sextant-SRPC-Technology-Domain-Simulator-Factory/research/srpc/srpcTest.html
+
 
 
 The current SRPC research architecture can also be examined directly through the following test interfaces:
