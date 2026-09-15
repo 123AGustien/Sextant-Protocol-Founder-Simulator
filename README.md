@@ -1,3 +1,7 @@
+
+The target URL should be:
+Grid ScenarioTest
+
 https://123agustien.github.io/Sextant-SRPC-Technology-Domain-Simulator-Factory/research/srpc/domain/grid/ScenarioTest.html
 
 code.
