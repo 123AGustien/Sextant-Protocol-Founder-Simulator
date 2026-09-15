@@ -1,0 +1,332 @@
+/*
+ * Sextant Protocol™
+ * Grid Energy Resilience Rules
+ *
+ * File:
+ * research/srpc/domain/grid/Rules.js
+ *
+ * Purpose:
+ * Define deterministic Grid Energy Resilience domain rules.
+ *
+ * Boundary:
+ * ALGORITHMS / RULES ONLY.
+ *
+ * This file does not contain scenario data,
+ * execute physical actions, or provide autonomous control.
+ */
+
+(function (global) {
+
+    const GridRules = {
+
+        version: "0.1.0-GRID-RESEARCH",
+
+        domain: "grid",
+
+        rules: [
+
+            {
+                id: "GRID-RULE-001",
+
+                name:
+                    "Grid Availability Validation",
+
+                description:
+                    "Validate that grid availability remains within the defined operating range.",
+
+                evaluate: function (inputs) {
+
+                    const value =
+                        inputs &&
+                        inputs.systemState &&
+                        typeof inputs.systemState.availability === "number"
+                            ? inputs.systemState.availability
+                            : null;
+
+                    const passed =
+                        value !== null &&
+                        value >= 0 &&
+                        value <= 100;
+
+                    return {
+
+                        ruleId:
+                            "GRID-RULE-001",
+
+                        passed:
+                            passed,
+
+                        value:
+                            value,
+
+                        assessment:
+                            passed
+                                ? "VALID"
+                                : "INVALID_AVAILABILITY"
+
+                    };
+                }
+            },
+
+            {
+                id: "GRID-RULE-002",
+
+                name:
+                    "Grid Integrity Validation",
+
+                description:
+                    "Validate that grid integrity remains within the defined operating range.",
+
+                evaluate: function (inputs) {
+
+                    const value =
+                        inputs &&
+                        inputs.systemState &&
+                        typeof inputs.systemState.integrity === "number"
+                            ? inputs.systemState.integrity
+                            : null;
+
+                    const passed =
+                        value !== null &&
+                        value >= 0 &&
+                        value <= 100;
+
+                    return {
+
+                        ruleId:
+                            "GRID-RULE-002",
+
+                        passed:
+                            passed,
+
+                        value:
+                            value,
+
+                        assessment:
+                            passed
+                                ? "VALID"
+                                : "INVALID_INTEGRITY"
+
+                    };
+                }
+            },
+
+            {
+                id: "GRID-RULE-003",
+
+                name:
+                    "Grid Stability Validation",
+
+                description:
+                    "Validate that grid stability remains within the defined operating range.",
+
+                evaluate: function (inputs) {
+
+                    const value =
+                        inputs &&
+                        inputs.systemState &&
+                        typeof inputs.systemState.stability === "number"
+                            ? inputs.systemState.stability
+                            : null;
+
+                    const passed =
+                        value !== null &&
+                        value >= 0 &&
+                        value <= 100;
+
+                    return {
+
+                        ruleId:
+                            "GRID-RULE-003",
+
+                        passed:
+                            passed,
+
+                        value:
+                            value,
+
+                        assessment:
+                            passed
+                                ? "VALID"
+                                : "INVALID_STABILITY"
+
+                    };
+                }
+            },
+
+            {
+                id: "GRID-RULE-004",
+
+                name:
+                    "Grid Demand Validation",
+
+                description:
+                    "Validate that energy demand is within the defined percentage range.",
+
+                evaluate: function (inputs) {
+
+                    const value =
+                        inputs &&
+                        inputs.energy &&
+                        typeof inputs.energy.demandPercent === "number"
+                            ? inputs.energy.demandPercent
+                            : null;
+
+                    const passed =
+                        value !== null &&
+                        value >= 0 &&
+                        value <= 100;
+
+                    return {
+
+                        ruleId:
+                            "GRID-RULE-004",
+
+                        passed:
+                            passed,
+
+                        value:
+                            value,
+
+                        assessment:
+                            passed
+                                ? "VALID"
+                                : "INVALID_DEMAND"
+
+                    };
+                }
+            },
+
+            {
+                id: "GRID-RULE-005",
+
+                name:
+                    "Grid Load Validation",
+
+                description:
+                    "Validate that current grid loading remains within the defined percentage range.",
+
+                evaluate: function (inputs) {
+
+                    const value =
+                        inputs &&
+                        inputs.energy &&
+                        typeof inputs.energy.gridLoadPercent === "number"
+                            ? inputs.energy.gridLoadPercent
+                            : null;
+
+                    const passed =
+                        value !== null &&
+                        value >= 0 &&
+                        value <= 100;
+
+                    return {
+
+                        ruleId:
+                            "GRID-RULE-005",
+
+                        passed:
+                            passed,
+
+                        value:
+                            value,
+
+                        assessment:
+                            passed
+                                ? "VALID"
+                                : "INVALID_GRID_LOAD"
+
+                    };
+                }
+            },
+
+            {
+                id: "GRID-RULE-006",
+
+                name:
+                    "Energy Composition Validation",
+
+                description:
+                    "Validate that renewable and non-renewable energy contributions form a complete composition.",
+
+                evaluate: function (inputs) {
+
+                    const renewable =
+                        inputs &&
+                        inputs.energy &&
+                        typeof inputs.energy.renewablePercent === "number"
+                            ? inputs.energy.renewablePercent
+                            : null;
+
+                    const nonRenewable =
+                        inputs &&
+                        inputs.energy &&
+                        typeof inputs.energy.nonRenewablePercent === "number"
+                            ? inputs.energy.nonRenewablePercent
+                            : null;
+
+                    const total =
+                        renewable !== null &&
+                        nonRenewable !== null
+                            ? renewable + nonRenewable
+                            : null;
+
+                    const passed =
+                        total === 100;
+
+                    return {
+
+                        ruleId:
+                            "GRID-RULE-006",
+
+                        passed:
+                            passed,
+
+                        renewablePercent:
+                            renewable,
+
+                        nonRenewablePercent:
+                            nonRenewable,
+
+                        totalPercent:
+                            total,
+
+                        assessment:
+                            passed
+                                ? "VALID_COMPOSITION"
+                                : "INVALID_COMPOSITION"
+
+                    };
+                }
+            }
+
+        ],
+
+        getRules: function () {
+
+            return this.rules;
+
+        },
+
+        getRuleCount: function () {
+
+            return this.rules.length;
+
+        },
+
+        getRule: function (ruleId) {
+
+            return this.rules.find(
+                function (rule) {
+                    return rule.id === ruleId;
+                }
+            );
+
+        }
+
+    };
+
+    global.SextantGridRules =
+        GridRules;
+
+})(window);
