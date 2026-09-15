@@ -1,0 +1,307 @@
+name: Create SRPC Technology Domain Simulator
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain_id:
+        description: "Domain ID, for example grid"
+        required: true
+        type: string
+      domain_name:
+        description: "Domain name, for example Grid"
+        required: true
+        type: string
+      confirm_create:
+        description: "Confirm creation"
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  create-domain:
+    if: ${{ inputs.confirm_create }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate domain ID
+        run: |
+          DOMAIN_ID="${{ inputs.domain_id }}"
+
+          if [[ ! "$DOMAIN_ID" =~ ^[a-z0-9-]+$ ]]; then
+            echo "Invalid domain_id: $DOMAIN_ID"
+            exit 1
+          fi
+
+          echo "DOMAIN_ID=$DOMAIN_ID" >> "$GITHUB_ENV"
+
+      - name: Verify protected SRPC foundation
+        run: |
+          test -f research/srpc/srpcKernel.js
+          test -f research/srpc/srpcRules.js
+          test -f research/srpc/srpcCompute.js
+          test -f research/srpc/srpcTest.html
+
+          echo "Protected SRPC foundation verified."
+
+      - name: Create domain directory
+        run: |
+          mkdir -p "research/srpc/domain/${DOMAIN_ID}"
+
+      - name: Create ScenarioData.js
+        run: |
+          cat > "research/srpc/domain/${DOMAIN_ID}/ScenarioData.js" <<'EOF'
+(function (global) {
+
+  global.SextantScenarioData = {
+    version: "0.1.0",
+    domain: "${{ inputs.domain_id }}",
+    domainName: "${{ inputs.domain_name }}",
+    scenarioId: "${{ inputs.domain_id }}-SCENARIO-001",
+
+    systemState: {
+      availability: 100,
+      integrity: 100,
+      stability: 100
+    },
+
+    inputs: {},
+    thresholds: {},
+
+    validate: function () {
+      return {
+        valid: true,
+        status: "VALID"
+      };
+    },
+
+    getData: function () {
+      return this;
+    },
+
+    getScenario: function () {
+      return {
+        scenarioId: this.scenarioId,
+        domain: this.domain,
+        domainName: this.domainName
+      };
+    },
+
+    getInputs: function () {
+      return this.inputs;
+    },
+
+    getThresholds: function () {
+      return this.thresholds;
+    }
+  };
+
+})(window);
+EOF
+
+      - name: Create Rules.js
+        run: |
+          cat > "research/srpc/domain/${DOMAIN_ID}/Rules.js" <<'EOF'
+(function (global) {
+
+  global.SextantScenarioRules = [
+
+    {
+      id: "DOMAIN-RULE-001",
+      name: "Domain Availability",
+      evaluate: function (data) {
+        return data.systemState &&
+          data.systemState.availability >= 0;
+      }
+    },
+
+    {
+      id: "DOMAIN-RULE-002",
+      name: "Domain Integrity",
+      evaluate: function (data) {
+        return data.systemState &&
+          data.systemState.integrity >= 0;
+      }
+    },
+
+    {
+      id: "DOMAIN-RULE-003",
+      name: "Domain Stability",
+      evaluate: function (data) {
+        return data.systemState &&
+          data.systemState.stability >= 0;
+      }
+    }
+
+  ];
+
+})(window);
+EOF
+
+      - name: Create ScenarioCompute.js
+        run: |
+          cat > "research/srpc/domain/${DOMAIN_ID}/ScenarioCompute.js" <<'EOF'
+(function (global) {
+
+  global.SextantScenarioCompute = {
+
+    version: "0.1.0",
+
+    execute: function (scenarioResult) {
+
+      var passed = 0;
+      var failed = 0;
+
+      if (scenarioResult && scenarioResult.domainResults) {
+        passed = scenarioResult.domainResults.passed || 0;
+        failed = scenarioResult.domainResults.failed || 0;
+      }
+
+      var decision =
+        failed === 0
+          ? "MAINTAIN_SAFE_STATE"
+          : "REQUEST_DIAGNOSTICS";
+
+      return {
+        executed: true,
+        deterministic: true,
+        passed: passed,
+        failed: failed,
+        decision: decision,
+        humanDecisionAuthority: true,
+        physicalExecution: false,
+        autonomousActuation: false,
+        externalConnection: false,
+        backendConnection: false
+      };
+    }
+
+  };
+
+})(window);
+EOF
+
+      - name: Create ScenarioTest.html
+        run: |
+          cat > "research/srpc/domain/${DOMAIN_ID}/ScenarioTest.html" <<'EOF'
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sextant Protocol SRPC Domain Simulator</title>
+</head>
+
+<body>
+
+  <h1>Sextant Protocol™</h1>
+
+  <h2>${{ inputs.domain_name }} Domain Simulator</h2>
+
+  <p>Local deterministic research simulation only.</p>
+
+  <p>Human Decision Authority: REQUIRED</p>
+
+  <p>
+    Backend: FALSE |
+    External Connection: FALSE |
+    Physical Execution: FALSE |
+    Autonomous Actuation: FALSE
+  </p>
+
+  <button id="run-button">RUN SYSTEM</button>
+  <button id="determinism-button">TEST DETERMINISM</button>
+
+  <pre id="output">READY</pre>
+
+  <script src="../../srpcKernel.js"></script>
+  <script src="../../srpcRules.js"></script>
+  <script src="../../srpcCompute.js"></script>
+
+  <script src="ScenarioData.js"></script>
+  <script src="Rules.js"></script>
+  <script src="ScenarioCompute.js"></script>
+
+  <script>
+    document.getElementById("run-button").onclick = function () {
+
+      var data = window.SextantScenarioData.getData();
+
+      var result = {
+        domain: data.domain,
+        scenarioId: data.scenarioId,
+        status: "REVIEW_REQUIRED",
+        goldenRule: [
+          "OBSERVE",
+          "VERIFY",
+          "ASSESS",
+          "DECIDE",
+          "ACT",
+          "UPDATE"
+        ],
+        captainAI: "Captain AI Lena",
+        humanDecisionAuthority: true,
+        physicalExecution: false,
+        autonomousActuation: false
+      };
+
+      document.getElementById("output").textContent =
+        JSON.stringify(result, null, 2);
+    };
+
+    document.getElementById("determinism-button").onclick = function () {
+
+      var first = window.SextantScenarioData.getData();
+      var second = window.SextantScenarioData.getData();
+
+      var deterministic =
+        JSON.stringify(first) === JSON.stringify(second);
+
+      document.getElementById("output").textContent =
+        deterministic
+          ? "DOMAIN_DETERMINISM_PASS"
+          : "DOMAIN_DETERMINISM_FAIL";
+    };
+  </script>
+
+</body>
+</html>
+EOF
+
+      - name: Verify generated files
+        run: |
+          DOMAIN_DIR="research/srpc/domain/${DOMAIN_ID}"
+
+          test -f "$DOMAIN_DIR/ScenarioData.js"
+          test -f "$DOMAIN_DIR/Rules.js"
+          test -f "$DOMAIN_DIR/ScenarioCompute.js"
+          test -f "$DOMAIN_DIR/ScenarioTest.html"
+
+          echo "Generated domain files verified."
+
+      - name: Verify protected foundation unchanged
+        run: |
+          git diff --exit-code -- \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+
+          echo "Protected SRPC foundation unchanged."
+
+      - name: Commit and push domain
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add "research/srpc/domain/${DOMAIN_ID}"
+
+          git commit -m "Create ${DOMAIN_ID} SRPC technology domain simulator"
+
+          BRANCH="factory/${DOMAIN_ID}"
+
+          git checkout -b "$BRANCH"
+          git push origin "$BRANCH"
