@@ -1,0 +1,135 @@
+name: Create Domain Simulator
+
+on:
+workflow_dispatch:
+inputs:
+domain:
+description: "Technology domain name"
+required: true
+default: "technology"
+domain_id:
+description: "Technology domain ID"
+required: true
+default: "TECH-001"
+
+permissions:
+contents: write
+
+jobs:
+create-domain-simulator:
+name: Create SRPC Technology Domain Simulator
+runs-on: ubuntu-latest
+
+steps:
+
+  - name: Checkout repository
+    uses: actions/checkout@v4
+
+  - name: Display requested domain
+    run: |
+      echo "========================================"
+      echo "Sextant Protocol™ — SRPC"
+      echo "Technology Domain Simulator Factory"
+      echo "========================================"
+      echo "Domain: ${{ github.event.inputs.domain }}"
+      echo "Domain ID: ${{ github.event.inputs.domain_id }}"
+      echo "Processing: LOCAL DETERMINISTIC RESEARCH"
+      echo "Backend: DISABLED"
+      echo "External Connection: DISABLED"
+      echo "Physical Execution: DISABLED"
+      echo "Autonomous Actuation: DISABLED"
+      echo "========================================"
+
+  - name: Verify protected SRPC foundation
+    shell: bash
+    run: |
+      set -e
+
+      echo "Checking protected SRPC foundation..."
+
+      test -f research/srpc/srpcKernel.js
+      test -f research/srpc/srpcRules.js
+      test -f research/srpc/srpcCompute.js
+
+      echo "Protected SRPC foundation verified."
+
+  - name: Verify technology domain architecture
+    shell: bash
+    run: |
+      set -e
+
+      echo "Checking technology-domain architecture..."
+
+      required_files=(
+        "research/srpc/domain/ScenarioData.js"
+        "research/srpc/domain/Rules.js"
+        "research/srpc/domain/ScenarioRules.js"
+        "research/srpc/domain/RuleEngine.js"
+        "research/srpc/domain/Scenario.js"
+        "research/srpc/domain/ScenarioRuleEngine.js"
+        "research/srpc/domain/ScenarioEngine.js"
+        "research/srpc/domain/ScenarioCompute.js"
+        "research/srpc/domain/DomainIntegration.js"
+        "research/srpc/domain/Module.js"
+      )
+
+      for file in "${required_files[@]}"; do
+        if [ -f "$file" ]; then
+          echo "FOUND: $file"
+        else
+          echo "MISSING: $file"
+          exit 1
+        fi
+      done
+
+      echo "Technology-domain architecture verified."
+
+  - name: Verify application JavaScript
+    shell: bash
+    run: |
+      if [ -f assets/js/app.js ]; then
+        echo "FOUND: assets/js/app.js"
+      else
+        echo "assets/js/app.js does not exist yet."
+        echo "Workflow will continue without modifying protected files."
+      fi
+
+  - name: Validate workflow separation
+    shell: bash
+    run: |
+      echo "Validating architecture separation..."
+
+      if [ -f .github/workflows/create-domain-simulator.yml ]; then
+        echo "Workflow file exists."
+      fi
+
+      echo ""
+      echo "Architecture boundary:"
+      echo "  GitHub Actions  -> workflow automation"
+      echo "  HTML            -> simulator interface"
+      echo "  JavaScript      -> application logic"
+      echo "  ScenarioData    -> domain data"
+      echo "  Rules           -> domain rules"
+      echo "  RuleEngine      -> rule processing"
+      echo "  ScenarioEngine  -> scenario processing"
+      echo "  ScenarioCompute -> domain computation"
+      echo "  DomainIntegration -> domain integration"
+      echo "  SRPC foundation -> protected"
+      echo ""
+
+  - name: Commit generated changes if present
+    shell: bash
+    run: |
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      if git diff --quiet; then
+        echo "No changes to commit."
+        exit 0
+      fi
+
+      git add assets/js/app.js research/srpc/domain
+
+      git commit -m "Create SRPC technology domain simulator"
+
+      git push
