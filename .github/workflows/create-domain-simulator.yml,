@@ -1,0 +1,84 @@
+name: Validate SRPC Technology Domain Simulator
+
+on:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify protected SRPC foundation
+        run: |
+          set -e
+
+          for FILE in \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+          do
+            test -f "$FILE"
+            echo "FOUND: $FILE"
+          done
+
+      - name: Verify Technology Domain files
+        run: |
+          set -e
+
+          for FILE in \
+            research/srpc/domain/ScenarioData.js \
+            research/srpc/domain/Rules.js \
+            research/srpc/domain/ScenarioRules.js \
+            research/srpc/domain/RuleEngine.js \
+            research/srpc/domain/Scenario.js \
+            research/srpc/domain/ScenarioRuleEngine.js \
+            research/srpc/domain/ScenarioEngine.js \
+            research/srpc/domain/ScenarioCompute.js \
+            research/srpc/domain/DomainIntegration.js \
+            research/srpc/domain/Module.js \
+            research/srpc/domain/DomainSimulatorUI.js
+          do
+            test -f "$FILE"
+            echo "FOUND: $FILE"
+          done
+
+      - name: Check JavaScript syntax
+        run: |
+          set -e
+
+          for FILE in \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/domain/ScenarioData.js \
+            research/srpc/domain/Rules.js \
+            research/srpc/domain/ScenarioRules.js \
+            research/srpc/domain/RuleEngine.js \
+            research/srpc/domain/Scenario.js \
+            research/srpc/domain/ScenarioRuleEngine.js \
+            research/srpc/domain/ScenarioEngine.js \
+            research/srpc/domain/ScenarioCompute.js \
+            research/srpc/domain/DomainIntegration.js \
+            research/srpc/domain/Module.js \
+            research/srpc/domain/DomainSimulatorUI.js
+          do
+            node --check "$FILE"
+            echo "SYNTAX PASS: $FILE"
+          done
+
+      - name: Verify domain test
+        run: |
+          set -e
+
+          test -f research/srpc/domain/ScenarioTest.html
+
+          echo "FOUND: research/srpc/domain/ScenarioTest.html"
+          echo "SRPC Technology Domain validation complete."
