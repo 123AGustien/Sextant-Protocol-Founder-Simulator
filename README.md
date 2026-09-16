@@ -1,5 +1,53 @@
 🛰️ SEXTANT PROTOCOL™
 
+DOMAIN SIMULATOR — FILE CHECKLIST
+
+DATA
+
+- [ ] "<DOMAIN>ScenarioData.js"
+
+ALGORITHMS
+
+- [ ] "<DOMAIN>Rules.js"
+- [ ] "<DOMAIN>ScenarioRules.js"
+
+COMPUTE
+
+- [ ] "<DOMAIN>ScenarioRuleEngine.js"
+- [ ] "<DOMAIN>ScenarioEngine.js"
+
+DOMAIN INTEGRATION / WIRING
+
+- [ ] "<DOMAIN>DomainIntegration.js"
+- [ ] "<DOMAIN>Module.js"
+
+TEST / UI
+
+- [ ] "<DOMAIN>Test.html"
+- [ ] "index.html"
+
+---
+
+COMPLETE FILE CHECKLIST
+
+- [ ] 1. "<DOMAIN>ScenarioData.js"
+- [ ] 2. "<DOMAIN>Rules.js"
+- [ ] 3. "<DOMAIN>ScenarioRules.js"
+- [ ] 4. "<DOMAIN>ScenarioRuleEngine.js"
+- [ ] 5. "<DOMAIN>ScenarioEngine.js"
+- [ ] 6. "<DOMAIN>DomainIntegration.js"
+- [ ] 7. "<DOMAIN>Module.js"
+- [ ] 8. "<DOMAIN>Test.html"
+- [ ] 9. "index.html"
+
+TOTAL: 9 FILES
+
+Architecture:
+
+DATA → ALGORITHMS → COMPUTE → DOMAIN INTEGRATION → MODULE → TEST/UI
+
+🛰️ SEXTANT PROTOCOL™
+
 STANDARD TECHNOLOGY-DOMAIN SIMULATOR BUILD SOP
 
 Purpose
