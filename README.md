@@ -1,3 +1,6 @@
+
+https://123agustien.github.io/Sextant-Protocol-Cockpit-Pro-Edge-Optimization-Validation/
+
 https://123agustien.github.io/Sextant-Protocol-Cockpit-Pro-Edge-Optimization-Validation/assets/js/app.js
 
 https://123agustien.github.io/Sextant-Protocol-Founder-Simulator/research/srpc/domain/fin/FINTest.html
