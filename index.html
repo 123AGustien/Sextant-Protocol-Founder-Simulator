@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sextant Protocol™ — SRPC Technology Domain Simulator</title>
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #07111f;
+    color: #e8f0f7;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 24px;
+}
+
+h1 {
+    margin-bottom: 4px;
+}
+
+h2 {
+    margin-top: 28px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #29445c;
+}
+
+.subtitle {
+    color: #9db4c8;
+    margin-bottom: 24px;
+}
+
+.panel {
+    background: #0d1b2a;
+    border: 1px solid #29445c;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+}
+
+.card {
+    background: #101f30;
+    border: 1px solid #29445c;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.label {
+    color: #91a9bc;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.value {
+    font-weight: bold;
+}
+
+.available {
+    color: #79d99b;
+}
+
+.unavailable {
+    color: #f08a8a;
+}
+
+.lifecycle {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.lifecycle div {
+    padding: 12px 6px;
+    text-align: center;
+    border: 1px solid #29445c;
+    border-radius: 6px;
+    background: #101f30;
+}
+
+button {
+    margin: 4px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #41647d;
+    background: #17344c;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #214965;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #06101c;
+    border: 1px solid #22394d;
+    border-radius: 8px;
+    padding: 14px;
+    overflow-x: auto;
+}
+
+.small {
+    color: #91a9bc;
+    font-size: 13px;
+}
+
+.footer {
+    text-align: center;
+    color: #7f98ab;
+    padding: 20px 0;
+}
+
+</style>
+
+<!-- =====================================================
+     PROTECTED SRPC FOUNDATION
+     ===================================================== -->
+
+<script src="research/srpc/srpcKernel.js"></script>
+<script src="research/srpc/srpcRules.js"></script>
+<script src="research/srpc/srpcCompute.js"></script>
+
+<!-- =====================================================
+     TECHNOLOGY DOMAIN
+     ===================================================== -->
+
+<script src="research/srpc/domain/ScenarioData.js"></script>
+<script src="research/srpc/domain/Rules.js"></script>
+<script src="research/srpc/domain/ScenarioRules.js"></script>
+<script src="research/srpc/domain/RuleEngine.js"></script>
+<script src="research/srpc/domain/Scenario.js"></script>
+<script src="research/srpc/domain/ScenarioRuleEngine.js"></script>
+<script src="research/srpc/domain/ScenarioEngine.js"></script>
+<script src="research/srpc/domain/ScenarioCompute.js"></script>
+<script src="research/srpc/domain/DomainIntegration.js"></script>
+<script src="research/srpc/domain/Module.js"></script>
+
+<!-- =====================================================
+     DOMAIN UI
+     ===================================================== -->
+
+<script src="research/srpc/domain/DomainSimulatorUI.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🛰️ Sextant Protocol™</h1>
+
+<div class="subtitle">
+SRPC Technology Domain Simulator<br>
+SRPC Domain Architecture v0.1.0-RESEARCH
+</div>
+
+<!-- =====================================================
+     FACTORY STATUS
+     ===================================================== -->
+
+<h2>Factory Status</h2>
+
+<div class="panel">
+
+<div class="grid">
+
+<div class="card">
+<div class="label">UI Controller</div>
+<div id="uiStatus" class="value">CHECKING</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario Data</div>
+<div id="scenarioDataStatus" class="value">CHECKING</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario</div>
+<div id="scenarioStatus" class="value">CHECKING</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario Engine</div>
+<div id="engineStatus" class="value">CHECKING</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario Compute</div>
+<div id="computeStatus" class="value">CHECKING</div>
+</div>
+
+<div class="card">
+<div class="label">Domain Integration</div>
+<div id="integrationStatus" class="value">CHECKING</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     SAFETY
+     ===================================================== -->
+
+<h2>Safety Boundary</h2>
+
+<div class="panel">
+
+<div class="grid">
+
+<div class="card">
+<div class="label">Local Processing</div>
+<div class="value available">TRUE</div>
+</div>
+
+<div class="card">
+<div class="label">Backend Connection</div>
+<div class="value">FALSE</div>
+</div>
+
+<div class="card">
+<div class="label">External Connection</div>
+<div class="value">FALSE</div>
+</div>
+
+<div class="card">
+<div class="label">Physical Execution</div>
+<div class="value">FALSE</div>
+</div>
+
+<div class="card">
+<div class="label">Autonomous Actuation</div>
+<div class="value">FALSE</div>
+</div>
+
+<div class="card">
+<div class="label">Human Authority</div>
+<div class="value">REQUIRED</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     TECHNOLOGY DOMAIN
+     ===================================================== -->
+
+<h2>Technology Domain</h2>
+
+<div class="panel">
+
+<div class="grid">
+
+<div class="card">
+<div class="label">Domain</div>
+<div id="domainName" class="value">technology-domain</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario ID</div>
+<div id="scenarioId" class="value">DOMAIN-SCENARIO-001</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario Name</div>
+<div id="scenarioName" class="value">
+Technology Domain Baseline Scenario
+</div>
+</div>
+
+<div class="card">
+<div class="label">Scenario Status</div>
+<div id="scenarioState" class="value">RESEARCH</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     ARCHITECTURE
+     ===================================================== -->
+
+<h2>SRPC Processing Architecture</h2>
+
+<div class="panel">
+
+<div class="grid">
+
+<div class="card">
+<div class="label">DATA</div>
+<div class="value">ScenarioData</div>
+</div>
+
+<div class="card">
+<div class="label">SCENARIO</div>
+<div class="value">Scenario</div>
+</div>
+
+<div class="card">
+<div class="label">RULES</div>
+<div class="value">Rule Engines</div>
+</div>
+
+<div class="card">
+<div class="label">COMPUTE</div>
+<div class="value">ScenarioCompute</div>
+</div>
+
+<div class="card">
+<div class="label">INTEGRATION</div>
+<div class="value">DomainIntegration</div>
+</div>
+
+<div class="card">
+<div class="label">UI</div>
+<div class="value">DomainSimulatorUI</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     GOLDEN RULE
+     ===================================================== -->
+
+<h2>Golden Rule Lifecycle</h2>
+
+<div class="panel">
+
+<div class="lifecycle">
+
+<div>OBSERVE</div>
+<div>VERIFY</div>
+<div>ASSESS</div>
+<div>DECIDE</div>
+<div>ACT</div>
+<div>UPDATE</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     TEST FLOW
+     ===================================================== -->
+
+<h2>SRPC Test Flow</h2>
+
+<div class="panel">
+
+<p class="small">
+Deterministic local research validation only.
+</p>
+
+<div class="lifecycle">
+
+<div>01<br>LOAD</div>
+<div>02<br>OBSERVE</div>
+<div>03<br>VERIFY</div>
+<div>04<br>ASSESS</div>
+<div>05<br>CAPTAIN AI LENA</div>
+<div>06<br>HUMAN AUTHORITY</div>
+<div>07<br>ACT — SIMULATED</div>
+<div>08<br>UPDATE</div>
+
+</div>
+
+<br>
+
+<button onclick="runSRPCProcessing()">
+RUN SRPC PROCESSING
+</button>
+
+<button onclick="runDeterminismTest()">
+TEST DETERMINISM
+</button>
+
+</div>
+
+<!-- =====================================================
+     SYSTEM STATE
+     ===================================================== -->
+
+<h2>System State</h2>
+
+<div class="panel">
+
+<pre id="systemState">Loading...</pre>
+
+</div>
+
+<!-- =====================================================
+     DOMAIN INTEGRATION
+     ===================================================== -->
+
+<h2>Domain Integration</h2>
+
+<div class="panel">
+
+<pre id="domainIntegration">Loading...</pre>
+
+</div>
+
+<!-- =====================================================
+     PROCESSING
+     ===================================================== -->
+
+<h2>Scenario Processing</h2>
+
+<div class="panel">
+
+<pre id="processingResult">
+No processing executed.
+</pre>
+
+</div>
+
+<!-- =====================================================
+     CAPTAIN AI LENA
+     ===================================================== -->
+
+<h2>Captain AI Lena</h2>
+
+<div class="panel">
+
+<p>
+Decision-support only. Human authority remains final.
+</p>
+
+<pre id="captainOutput">
+Awaiting SRPC processing.
+</pre>
+
+</div>
+
+<!-- =====================================================
+     HUMAN AUTHORITY
+     ===================================================== -->
+
+<h2>Human Decision Authority</h2>
+
+<div class="panel">
+
+<p class="small">
+These buttons record a human decision only.
+They do not execute physical or autonomous actions.
+</p>
+
+<button onclick="recordHumanDecision('AUTHORIZE RECOVERY')">
+AUTHORIZE RECOVERY
+</button>
+
+<button onclick="recordHumanDecision('MAINTAIN SAFE STATE')">
+MAINTAIN SAFE STATE
+</button>
+
+<button onclick="recordHumanDecision('REQUEST DIAGNOSTICS')">
+REQUEST DIAGNOSTICS
+</button>
+
+<button onclick="recordHumanDecision('ABORT RECOVERY')">
+ABORT RECOVERY
+</button>
+
+<button onclick="recordHumanDecision('ESCALATE')">
+ESCALATE
+</button>
+
+<pre id="humanDecision">
+No human decision recorded.
+</pre>
+
+</div>
+
+<!-- =====================================================
+     AUDIT
+     ===================================================== -->
+
+<h2>Audit Record</h2>
+
+<div class="panel">
+
+<pre id="auditRecord">
+No audit record.
+</pre>
+
+</div>
+
+<!-- =====================================================
+     GOVERNANCE
+     ===================================================== -->
+
+<h2>Research Governance</h2>
+
+<div class="panel">
+
+<p>
+This is a deterministic local research simulator.
+It has no backend connection, external connection,
+physical execution, or autonomous actuation.
+</p>
+
+<p>
+Human Decision Authority remains final.
+</p>
+
+</div>
+
+<div class="footer">
+Sextant Protocol™ — SRPC Technology Domain Simulator
+</div>
+
+</div>
+
+<script>
+
+/*
+ * ============================================================
+ * SCREEN CONTROLLER
+ * ============================================================
+ *
+ * IMPORTANT:
+ * This screen does not replace DomainSimulatorUI.js.
+ * It reads the controller exported by that module.
+ */
+
+function setStatus(id, available) {
+
+    const element = document.getElementById(id);
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        available ? "AVAILABLE" : "UNAVAILABLE";
+
+    element.className =
+        available
+            ? "value available"
+            : "value unavailable";
+}
+
+
+/*
+ * ============================================================
+ * FACTORY STATUS
+ * ============================================================
+ */
+
+function updateFactoryStatus() {
+
+    setStatus(
+        "uiStatus",
+        !!window.SextantDomainSimulatorUI
+    );
+
+    setStatus(
+        "scenarioDataStatus",
+        !!window.SextantScenarioData
+    );
+
+    setStatus(
+        "scenarioStatus",
+        !!window.SextantScenario
+    );
+
+    setStatus(
+        "engineStatus",
+        !!window.SextantScenarioEngine
+    );
+
+    setStatus(
+        "computeStatus",
+        !!window.SextantScenarioCompute
+    );
+
+    setStatus(
+        "integrationStatus",
+        !!window.SextantDomainIntegration
+    );
+}
+
+
+/*
+ * ============================================================
+ * DOMAIN DATA
+ * ============================================================
+ */
+
+function updateDomainData() {
+
+    const data =
+        window.SextantScenarioData;
+
+    try {
+
+        let result = null;
+
+        if (
+            data &&
+            typeof data.getData === "function"
+        ) {
+            result = data.getData();
+        }
+        else if (
+            data &&
+            typeof data.getScenarioData === "function"
+        ) {
+            result = data.getScenarioData();
+        }
+
+        if (!result) {
+            return;
+        }
+
+        if (result.domain) {
+            document.getElementById("domainName")
+                .textContent = result.domain;
+        }
+
+        if (result.scenarioId) {
+            document.getElementById("scenarioId")
+                .textContent = result.scenarioId;
+        }
+
+        if (result.scenarioName) {
+            document.getElementById("scenarioName")
+                .textContent = result.scenarioName;
+        }
+
+        if (result.status) {
+            document.getElementById("scenarioState")
+                .textContent = result.status;
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Scenario data display error:",
+            error
+        );
+
+    }
+}
+
+
+/*
+ * ============================================================
+ * SYSTEM STATE
+ * ============================================================
+ */
+
+function updateSystemState() {
+
+    const ui =
+        window.SextantDomainSimulatorUI;
+
+    let state = null;
+
+    try {
+
+        if (
+            ui &&
+            typeof ui.getSystemState === "function"
+        ) {
+            state = ui.getSystemState();
+        }
+
+    } catch (error) {
+
+        state = {
+            error: error.message
+        };
+
+    }
+
+    if (!state) {
+
+        state = {
+            systemState: {
+                availability: 100,
+                integrity: 100,
+                stability: 100
+            },
+
+            conditions: {
+                operatingCondition: "NORMAL",
+                environmentalCondition: "NORMAL",
+                externalDependency: "AVAILABLE"
+            },
+
+            observations: [],
+            failures: [],
+            dependencies: [],
+            constraints: []
+        };
+
+    }
+
+    document.getElementById("systemState")
+        .textContent =
+        JSON.stringify(state, null, 2);
+}
+
+
+/*
+ * ============================================================
+ * DOMAIN INTEGRATION
+ * ============================================================
+ */
+
+function updateIntegration() {
+
+    const ui =
+        window.SextantDomainSimulatorUI;
+
+    const integration =
+        window.SextantDomainIntegration;
+
+    let result = null;
+
+    try {
+
+        if (
+            ui &&
+            typeof ui.getIntegrationStatus === "function"
+        ) {
+
+            result =
+                ui.getIntegrationStatus();
+
+        }
+        else if (
+            integration &&
+            typeof integration.getStatus === "function"
+        ) {
+
+            result =
+                integration.getStatus();
+
+        }
+
+    } catch (error) {
+
+        result = {
+            error: error.message
+        };
+
+    }
+
+    if (!result) {
+
+        result = {
+            status:
+                "DOMAIN_INTEGRATION_UNAVAILABLE"
+        };
+
+    }
+
+    document.getElementById("domainIntegration")
+        .textContent =
+        JSON.stringify(result, null, 2);
+}
+
+
+/*
+ * ============================================================
+ * SRPC PROCESSING
+ * ============================================================
+ */
+
+function runSRPCProcessing() {
+
+    const ui =
+        window.SextantDomainSimulatorUI;
+
+    let result = null;
+
+    try {
+
+        if (
+            ui &&
+            typeof ui.process === "function"
+        ) {
+
+            result =
+                ui.process();
+
+        }
+        else {
+
+            result = {
+                status:
+                    "UI_CONTROLLER_PROCESS_UNAVAILABLE"
+            };
+
+        }
+
+    } catch (error) {
+
+        result = {
+            status: "PROCESS_ERROR",
+            error: error.message
+        };
+
+    }
+
+    document.getElementById("processingResult")
+        .textContent =
+        JSON.stringify(result, null, 2);
+
+    document.getElementById("captainOutput")
+        .textContent =
+        JSON.stringify(
+            {
+                role: "Captain AI Lena",
+                function: "Decision-support only",
+                humanAuthorityFinal: true,
+                processingResult: result
+            },
+            null,
+            2
+        );
+
+    document.getElementById("auditRecord")
+        .textContent =
+        JSON.stringify(
+            {
+                event: "SRPC_PROCESSING",
+                deterministicLocalResearch: true,
+                physicalExecution: false,
+                backendConnection: false,
+                externalConnection: false,
+                autonomousActuation: false,
+                humanAuthorityRequired: true
+            },
+            null,
+            2
+        );
+}
+
+
+/*
+ * ============================================================
+ * DETERMINISM
+ * ============================================================
+ */
+
+function runDeterminismTest() {
+
+    const ui =
+        window.SextantDomainSimulatorUI;
+
+    let result = null;
+
+    try {
+
+        if (
+            ui &&
+            typeof ui.testDeterminism === "function"
+        ) {
+
+            result =
+                ui.testDeterminism();
+
+        }
+        else {
+
+            result = {
+                deterministic: false,
+                status:
+                    "DETERMINISM_UNAVAILABLE"
+            };
+
+        }
+
+    } catch (error) {
+
+        result = {
+            deterministic: false,
+            status: "DETERMINISM_ERROR",
+            error: error.message
+        };
+
+    }
+
+    document.getElementById("auditRecord")
+        .textContent =
+        JSON.stringify(
+            {
+                event: "DETERMINISM_TEST",
+                result: result
+            },
+            null,
+            2
+        );
+}
+
+
+/*
+ * ============================================================
+ * HUMAN DECISION AUTHORITY
+ * ============================================================
+ */
+
+function recordHumanDecision(decision) {
+
+    const record = {
+
+        event: "HUMAN_DECISION",
+
+        decision: decision,
+
+        authority:
+            "Human Decision Authority",
+
+        captainAI:
+            "Decision-support only",
+
+        physicalExecution:
+            false,
+
+        autonomousActuation:
+            false,
+
+        backendConnection:
+            false,
+
+        externalConnection:
+            false,
+
+        timestamp:
+            new Date().toISOString()
+
+    };
+
+    document.getElementById("humanDecision")
+        .textContent =
+        JSON.stringify(record, null, 2);
+
+    document.getElementById("auditRecord")
+        .textContent =
+        JSON.stringify(record, null, 2);
+}
+
+
+/*
+ * ============================================================
+ * INITIALISE
+ * ============================================================
+ */
+
+function initialiseSRPCScreen() {
+
+    updateFactoryStatus();
+
+    updateDomainData();
+
+    updateSystemState();
+
+    updateIntegration();
+
+}
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialiseSRPCScreen
+    );
+
+} else {
+
+    initialiseSRPCScreen();
+
+}
+
+</script>
+
+</body>
+</html>
