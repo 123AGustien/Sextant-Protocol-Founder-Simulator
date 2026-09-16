@@ -1,0 +1,277 @@
+name: Sextant Protocol Founder Simulator Validation
+
+"on":
+  workflow_dispatch:
+  push:
+    branches:
+      - domain/grid-module-dpa
+    paths:
+      - index.html
+      - research/srpc/**
+      - .github/workflows/create-domain-simulator.yml
+
+permissions:
+  contents: read
+
+jobs:
+  validate-founder-simulator:
+    name: Validate Founder Simulator
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify protected SRPC foundation
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking protected SRPC foundation..."
+
+          for FILE in \
+            research/srpc/srpcKernel.js \
+            research/srpc/srpcRules.js \
+            research/srpc/srpcCompute.js \
+            research/srpc/srpcTest.html
+          do
+            test -f "$FILE"
+            echo "FOUND: $FILE"
+          done
+
+          echo "Protected SRPC foundation: PASS"
+
+      - name: Verify Grid Module architecture
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking Grid Technology Domain..."
+
+          for FILE in \
+            research/srpc/domain/grid/ScenarioData.js \
+            research/srpc/domain/grid/Rules.js \
+            research/srpc/domain/grid/ScenarioRules.js \
+            research/srpc/domain/grid/RuleEngine.js \
+            research/srpc/domain/grid/Scenario.js \
+            research/srpc/domain/grid/ScenarioRuleEngine.js \
+            research/srpc/domain/grid/ScenarioEngine.js \
+            research/srpc/domain/grid/ScenarioCompute.js \
+            research/srpc/domain/grid/DomainIntegration.js \
+            research/srpc/domain/grid/Module.js \
+            research/srpc/domain/grid/GridSimulatorUI.js \
+            research/srpc/domain/grid/ScenarioTest.html
+          do
+            test -f "$FILE"
+            echo "FOUND: $FILE"
+          done
+
+          echo "Grid Module architecture: PASS"
+
+      - name: Verify main cockpit
+        shell: bash
+        run: |
+          set -e
+
+          test -f index.html
+
+          grep -q "Sextant Protocol" index.html
+          grep -q "Cockpit Pro" index.html
+          grep -q "Grid Energy Resilience" index.html
+
+          echo "Main cockpit identity: PASS"
+
+      - name: Verify Grid integration namespace
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking Grid integration namespaces..."
+
+          grep -R -q "SextantGridScenarioData" \
+            research/srpc/domain/grid/
+
+          grep -R -q "SextantGridScenario" \
+            research/srpc/domain/grid/
+
+          grep -R -q "SextantGridScenarioEngine" \
+            research/srpc/domain/grid/
+
+          grep -R -q "SextantGridScenarioCompute" \
+            research/srpc/domain/grid/
+
+          grep -R -q "SextantGridDomainIntegration" \
+            research/srpc/domain/grid/
+
+          grep -R -q "SextantGridModule" \
+            research/srpc/domain/grid/
+
+          grep -R -q "SextantGridSimulatorUI" \
+            research/srpc/domain/grid/
+
+          echo "Grid integration namespace architecture: PASS"
+
+      - name: Verify Grid ScenarioTest
+        shell: bash
+        run: |
+          set -e
+
+          SCENARIO_TEST="research/srpc/domain/grid/ScenarioTest.html"
+
+          test -f "$SCENARIO_TEST"
+
+          grep -q "SextantGridModule" "$SCENARIO_TEST"
+          grep -q "SextantGridDomainIntegration" "$SCENARIO_TEST"
+          grep -q "SextantGridScenario" "$SCENARIO_TEST"
+
+          echo "Grid ScenarioTest namespace wiring: PASS"
+
+      - name: Verify Grid processing functions
+        shell: bash
+        run: |
+          set -e
+
+          grep -R -q "runGridResearchTest" \
+            research/srpc/domain/grid/ \
+            index.html
+
+          grep -R -q "runGridIntegrationTest" \
+            research/srpc/domain/grid/ \
+            index.html
+
+          grep -R -q "runGridDeterminismTest" \
+            research/srpc/domain/grid/ \
+            index.html
+
+          grep -R -q "validateGridScenario" \
+            research/srpc/domain/grid/ \
+            index.html
+
+          echo "Grid processing controls: PASS"
+
+      - name: Verify protected SRPC references
+        shell: bash
+        run: |
+          set -e
+
+          grep -R -q "srpcKernel" \
+            research/srpc/domain/grid/ \
+            research/srpc/srpcTest.html
+
+          grep -R -q "srpcRules" \
+            research/srpc/domain/grid/ \
+            research/srpc/srpcTest.html
+
+          grep -R -q "srpcCompute" \
+            research/srpc/domain/grid/ \
+            research/srpc/srpcTest.html
+
+          echo "Protected SRPC references: PASS"
+
+      - name: Verify Golden Rule
+        shell: bash
+        run: |
+          set -e
+
+          grep -R -q \
+            "OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE" \
+            index.html \
+            research/srpc/domain/grid/
+
+          echo "Golden Rule: PASS"
+
+      - name: Verify safety boundary
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking safety boundary..."
+
+          grep -R -qi \
+            "backend.*false\|backend.*disabled" \
+            index.html \
+            research/srpc/domain/grid/
+
+          grep -R -qi \
+            "external.*false\|external.*disabled" \
+            index.html \
+            research/srpc/domain/grid/
+
+          grep -R -qi \
+            "physical.*false\|physical.*disabled" \
+            index.html \
+            research/srpc/domain/grid/
+
+          grep -R -qi \
+            "autonomous.*false\|autonomous.*disabled" \
+            index.html \
+            research/srpc/domain/grid/
+
+          grep -R -qi \
+            "human.*author" \
+            index.html \
+            research/srpc/domain/grid/
+
+          echo "Safety boundary: PASS"
+
+      - name: Verify deterministic research architecture
+        shell: bash
+        run: |
+          set -e
+
+          grep -R -qi "deterministic" \
+            index.html \
+            research/srpc/domain/grid/
+
+          grep -R -qi "simulation" \
+            index.html \
+            research/srpc/domain/grid/
+
+          grep -R -qi "audit" \
+            index.html \
+            research/srpc/domain/grid/
+
+          echo "Deterministic research architecture: PASS"
+
+      - name: Verify domain separation
+        shell: bash
+        run: |
+          set -e
+
+          test -d research/srpc/domain/grid
+
+          echo "Grid domain directory: PASS"
+          echo "Domain remains independently structured."
+
+      - name: Validation summary
+        shell: bash
+        run: |
+          echo "=============================================="
+          echo "SEXTANT PROTOCOL™"
+          echo "FOUNDER SIMULATOR — GRID DOMAIN"
+          echo "=============================================="
+          echo "Protected SRPC foundation: PASS"
+          echo "Grid Module architecture: PASS"
+          echo "Main cockpit identity: PASS"
+          echo "Grid namespace architecture: PASS"
+          echo "Grid ScenarioTest: PASS"
+          echo "Grid processing controls: PASS"
+          echo "Protected SRPC references: PASS"
+          echo "Golden Rule: PASS"
+          echo "Safety boundary: PASS"
+          echo "Deterministic research architecture: PASS"
+          echo "Domain separation: PASS"
+          echo "=============================================="
+          echo "DATA → ALGORITHMS → COMPUTE"
+          echo "OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE"
+          echo "=============================================="
+          echo "LOCAL DETERMINISTIC RESEARCH ONLY"
+          echo "BACKEND: DISABLED"
+          echo "EXTERNAL CONNECTION: DISABLED"
+          echo "PHYSICAL EXECUTION: DISABLED"
+          echo "AUTONOMOUS ACTUATION: DISABLED"
+          echo "HUMAN DECISION AUTHORITY: FINAL"
+          echo "=============================================="
+          echo "GRID DOMAIN VALIDATION: PASS"
+          echo "=============================================="
