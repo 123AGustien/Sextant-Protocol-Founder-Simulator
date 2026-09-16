@@ -1,6 +1,8 @@
 
 https://123agustien.github.io/Sextant-Protocol-Founder-Simulator/research/srpc/domain/fin/FINTest.html
 
+https://123agustien.github.io/Sextant-Protocol-Founder-Simulator/research/srpc/domain/fin/FINTest.html
+
 
 Your site is live at https://123agustien.github.io/Sextant-Protocol-Founder-Simulator/
 
