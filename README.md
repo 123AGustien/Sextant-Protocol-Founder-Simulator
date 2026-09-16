@@ -1,4 +1,347 @@
+🛰️ SEXTANT PROTOCOL™
 
+STANDARD TECHNOLOGY-DOMAIN SIMULATOR BUILD SOP
+
+Purpose
+
+Every new technology domain must use the same deterministic
+Sextant Protocol™ domain architecture.
+
+Architecture:
+
+DATA → ALGORITHMS → COMPUTE
+
+Golden Rule:
+
+OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+
+1. DATA LAYER
+
+Required files:
+
+- "<DOMAIN>ScenarioData.js"
+
+Purpose:
+
+- Authoritative domain scenario data
+- Scenario catalogue
+- Scenario identifiers
+- Scenario descriptions
+- Indicators
+- Available inputs
+- Initial system state
+- Scenario state
+- No algorithms
+- No decision logic
+- No execution logic
+
+2. ALGORITHMS LAYER
+
+Required files:
+
+- "<DOMAIN>Rules.js"
+- "<DOMAIN>ScenarioRules.js"
+
+"<DOMAIN>Rules.js"
+
+Purpose:
+
+- Deterministic domain rules
+- Assessment rules
+- Decision-option rules
+- Cascade rules
+- Domain algorithms
+- Rule validation
+
+"<DOMAIN>ScenarioRules.js"
+
+Purpose:
+
+- Scenario-specific rule configuration
+- Scenario verification requirements
+- Scenario relationships
+- Cascade configuration
+- V&V configuration
+- Domain-specific scenario logic configuration
+
+DATA remains the source of scenario information.
+
+Algorithms do not invent scenario data.
+
+3. COMPUTE LAYER
+
+Required files:
+
+- "<DOMAIN>ScenarioRuleEngine.js"
+- "<DOMAIN>ScenarioEngine.js"
+
+"<DOMAIN>ScenarioRuleEngine.js"
+
+Purpose:
+
+- Execution bridge between DATA and ALGORITHMS
+- Rule lookup
+- Scenario verification
+- Assessment
+- Decision-option evaluation
+- Cascade evaluation
+- Deterministic computation
+
+"<DOMAIN>ScenarioEngine.js"
+
+Purpose:
+
+- Execute the Golden Rule
+- OBSERVE
+- VERIFY
+- ASSESS
+- DECIDE
+- ACT
+- UPDATE
+- Produce complete deterministic result
+- Produce audit/update state
+
+4. DOMAIN INTEGRATION / WIRING LAYER
+
+Required files:
+
+- "<DOMAIN>DomainIntegration.js"
+- "<DOMAIN>Module.js"
+
+"<DOMAIN>DomainIntegration.js"
+
+Purpose:
+
+- Connect the domain simulator components
+- Connect Scenario Data
+- Connect Rules
+- Connect Scenario Rules
+- Connect Rule Engine
+- Connect Scenario Engine
+- Provide domain-level integration status
+- No external/backend connection
+
+"<DOMAIN>Module.js"
+
+Purpose:
+
+- Domain module entry point
+- Initialise the complete domain
+- Expose domain status
+- Connect domain integration to the test interface
+- Preserve safety boundaries
+
+5. TEST / USER INTERFACE LAYER
+
+Required files:
+
+- "<DOMAIN>Test.html"
+- "index.html"
+
+"<DOMAIN>Test.html"
+
+Purpose:
+
+- Domain simulator test interface
+- Scenario selection
+- Risk-state selection where applicable
+- Run scenario
+- Run integration test
+- Run determinism test
+- Validation
+- Scenario details
+- Complete result
+- Audit
+- Reset
+
+"index.html"
+
+Purpose:
+
+- Domain entry point
+- Load the required JavaScript files
+- Maintain correct script-loading order
+- Connect the domain module to the user interface
+- Provide navigation to the domain test interface
+
+6. COMPLETE STANDARD FILE SET
+
+For every new technology domain:
+
+research/srpc/domain/<domain>/
+
+    <DOMAIN>ScenarioData.js
+
+    <DOMAIN>Rules.js
+    <DOMAIN>ScenarioRules.js
+
+    <DOMAIN>ScenarioRuleEngine.js
+    <DOMAIN>ScenarioEngine.js
+
+    <DOMAIN>DomainIntegration.js
+    <DOMAIN>Module.js
+
+    <DOMAIN>Test.html
+    index.html
+
+7. STANDARD WIRING
+
+The domain must be wired in this order:
+
+ENVIRONMENT / AVAILABLE INPUTS
+            ↓
+        DOMAIN DATA
+            ↓
+   SCENARIO DATA
+            ↓
+   SCENARIO RULES
+            ↓
+      DOMAIN RULES
+            ↓
+ SCENARIO RULE ENGINE
+            ↓
+    SCENARIO ENGINE
+            ↓
+ DOMAIN INTEGRATION
+            ↓
+     DOMAIN MODULE
+            ↓
+       TEST / UI
+            ↓
+ RESILIENCE ASSESSMENT
+            ↓
+    DECISION SUPPORT
+            ↓
+ HUMAN DECISION AUTHORITY
+            ↓
+   SIMULATED ACTION
+            ↓
+        UPDATE
+            ↓
+        AUDIT
+
+8. STANDARD ARCHITECTURE
+
+Every domain must preserve:
+
+DATA
+  ↓
+ALGORITHMS
+  ↓
+COMPUTE
+  ↓
+DOMAIN INTEGRATION
+  ↓
+DOMAIN MODULE
+  ↓
+TEST / UI
+
+9. STANDARD SAFETY BOUNDARY
+
+Every domain simulator must remain:
+
+LOCAL DETERMINISTIC RESEARCH SIMULATION
+
+Backend connection       : DISABLED
+External connection      : DISABLED
+Physical execution       : DISABLED
+Autonomous actuation     : DISABLED
+Autonomous authority     : DISABLED
+Human authorization      : REQUIRED
+
+Domain-specific safety restrictions must be added where required.
+
+10. STANDARD V&V
+
+Every domain should provide:
+
+INPUT
+  ↓
+OBSERVE
+  ↓
+VERIFY
+  ↓
+ASSESS
+  ↓
+DECIDE
+  ↓
+HUMAN AUTHORIZE
+  ↓
+SIMULATE ACTION
+  ↓
+UPDATE
+  ↓
+AUDIT
+  ↓
+REPEAT / DETERMINISM TEST
+
+11. BUILD RULE
+
+For every new domain:
+
+1. Build DATA first.
+2. Build ALGORITHMS second.
+3. Build COMPUTE third.
+4. Build DOMAIN INTEGRATION.
+5. Build DOMAIN MODULE.
+6. Build TEST UI.
+7. Build / verify "index.html" wiring.
+8. Validate dependencies.
+9. Run scenario tests.
+10. Run integration tests.
+11. Run determinism tests.
+12. Run V&V.
+13. Confirm safety boundary.
+14. Confirm complete audit output.
+
+12. PROTECTED FOUNDATION
+
+The domain simulator must not rewrite or modify the protected SRPC foundation.
+
+Domain components are additive.
+
+The domain must connect to the existing architecture through its
+defined integration layer.
+
+No domain should create a parallel SRPC core.
+
+13. DOMAIN NAMING EXAMPLE
+
+For FIN:
+
+FINScenarioData.js
+FINRules.js
+FINScenarioRules.js
+FINScenarioRuleEngine.js
+FINScenarioEngine.js
+FINDomainIntegration.js
+FINModule.js
+FINTest.html
+index.html
+
+For GRID:
+
+GRIDScenarioData.js
+GRIDRules.js
+GRIDScenarioRules.js
+GRIDScenarioRuleEngine.js
+GRIDScenarioEngine.js
+GRIDDomainIntegration.js
+GRIDModule.js
+GRIDTest.html
+index.html
+
+The same structure applies to every future technology domain.
+
+SEXTANT PROTOCOL™ DOMAIN BUILD STANDARD
+
+DATA → ALGORITHMS → COMPUTE
+
+OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+
+SEPARATE ASSESSMENT FROM ACTION
+
+Human Decision Authority remains final.
 
 🛰️ SEXTANT PROTOCOL™ — FOUNDER SIMULATOR
 
