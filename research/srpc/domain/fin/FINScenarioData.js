@@ -1927,3 +1927,793 @@ if (typeof module !== "undefined" && module.exports) {
 }
 
 })(typeof window !== "undefined" ? window : globalThis);
+        /*
+         * ============================================================
+         * FIN FISCAL → BANKING RESILIENCE SCENARIO FAMILY
+         * ============================================================
+         *
+         * Controlled research scenarios.
+         *
+         * These scenarios model possible deterministic dependency
+         * relationships between fiscal conditions and banking
+         * resilience.
+         *
+         * They do NOT represent forecasts or claims about actual
+         * government events.
+         *
+         * No monetary-policy advice.
+         * No investment advice.
+         * No banking transaction execution.
+         * No market execution.
+         * No autonomous authority.
+         */
+
+        "FIN-FISCAL-001": {
+
+            id: "FIN-FISCAL-001",
+
+            name:
+                "Fiscal / APBN Stress",
+
+            category:
+                "FISCAL",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate fiscal pressure and assess possible " +
+                "financial-system resilience dependencies.",
+
+            scenario:
+                "Controlled simulation of fiscal or APBN stress " +
+                "affecting liquidity, credit, capital and payment " +
+                "conditions.",
+
+            evaluates: [
+                "Fiscal pressure",
+                "Liquidity dependency",
+                "Credit dependency",
+                "Capital dependency",
+                "Payment-system dependency"
+            ],
+
+            primaryIndicators: [
+                "Fiscal pressure state",
+                "Government liquidity condition",
+                "Banking liquidity condition",
+                "Credit condition",
+                "Capital condition",
+                "Payment-system condition"
+            ],
+
+            states: {
+                GREEN:
+                    "Fiscal conditions remain within the controlled " +
+                    "simulation baseline.",
+
+                YELLOW:
+                    "Emerging fiscal pressure requires enhanced " +
+                    "resilience observation.",
+
+                ORANGE:
+                    "Material fiscal pressure is present with possible " +
+                    "financial-system propagation.",
+
+                RED:
+                    "Severe fiscal stress is simulated with broad " +
+                    "banking-system dependency exposure."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "LIQUIDITY"
+                ],
+
+                ORANGE: [
+                    "LIQUIDITY",
+                    "CREDIT"
+                ],
+
+                RED: [
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Increase resilience monitoring.",
+                "Review liquidity contingency assumptions.",
+                "Review credit and capital dependencies.",
+                "Simulate payment-system resilience measures."
+            ]
+        },
+
+        "FIN-FISCAL-002": {
+
+            id: "FIN-FISCAL-002",
+
+            name:
+                "FX & Sovereign Confidence Stress",
+
+            category:
+                "FISCAL_FX",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate fiscal pressure propagating into FX and " +
+                "financial liquidity conditions.",
+
+            scenario:
+                "Controlled simulation of fiscal stress associated " +
+                "with increased FX and sovereign-confidence pressure.",
+
+            evaluates: [
+                "Fiscal pressure",
+                "FX stress",
+                "Liquidity dependency",
+                "Credit dependency",
+                "Capital dependency"
+            ],
+
+            primaryIndicators: [
+                "Fiscal pressure state",
+                "FX stress state",
+                "Liquidity condition",
+                "Credit condition",
+                "Capital condition"
+            ],
+
+            states: {
+                GREEN:
+                    "No material fiscal-to-FX propagation is simulated.",
+
+                YELLOW:
+                    "Moderate fiscal-to-FX pressure is simulated.",
+
+                ORANGE:
+                    "Material FX and liquidity propagation is simulated.",
+
+                RED:
+                    "Severe fiscal-to-FX propagation is simulated with " +
+                    "credit and capital dependencies."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "FX"
+                ],
+
+                ORANGE: [
+                    "FX",
+                    "LIQUIDITY"
+                ],
+
+                RED: [
+                    "FX",
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "FX",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL"
+            ],
+
+            contingencyActions: [
+                "Monitor simulated FX resilience conditions.",
+                "Review liquidity dependencies.",
+                "Review credit and capital resilience.",
+                "Run controlled FX-to-banking cascade simulation."
+            ]
+        },
+
+        "FIN-FISCAL-003": {
+
+            id: "FIN-FISCAL-003",
+
+            name:
+                "Fiscal → Banking Liquidity Cascade",
+
+            category:
+                "FISCAL_BANKING",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate propagation from fiscal stress into " +
+                "banking liquidity conditions.",
+
+            scenario:
+                "Controlled cascade simulation in which fiscal " +
+                "pressure propagates into banking liquidity and " +
+                "related resilience domains.",
+
+            evaluates: [
+                "Fiscal stress",
+                "Banking liquidity",
+                "Credit dependency",
+                "Capital dependency",
+                "Payment dependency"
+            ],
+
+            primaryIndicators: [
+                "Fiscal stress state",
+                "Banking liquidity state",
+                "Credit condition",
+                "Capital condition",
+                "Payment condition"
+            ],
+
+            states: {
+                GREEN:
+                    "No fiscal-to-banking liquidity cascade is simulated.",
+
+                YELLOW:
+                    "Early liquidity propagation is simulated.",
+
+                ORANGE:
+                    "Material banking liquidity pressure is simulated.",
+
+                RED:
+                    "Severe liquidity propagation with credit, capital " +
+                    "and payment dependencies is simulated."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "LIQUIDITY"
+                ],
+
+                ORANGE: [
+                    "LIQUIDITY",
+                    "CREDIT"
+                ],
+
+                RED: [
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Run liquidity resilience assessment.",
+                "Review simulated funding dependencies.",
+                "Assess credit and capital propagation.",
+                "Simulate payment-system contingency conditions."
+            ]
+        },
+
+        "FIN-FISCAL-004": {
+
+            id: "FIN-FISCAL-004",
+
+            name:
+                "Government Spending / Programme Pressure",
+
+            category:
+                "FISCAL_LIQUIDITY",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate government spending or programme pressure " +
+                "affecting economic and banking liquidity conditions.",
+
+            scenario:
+                "Controlled simulation of changes or pressure in " +
+                "government expenditure and programme flows.",
+
+            evaluates: [
+                "Government spending condition",
+                "Economic liquidity",
+                "Corporate liquidity",
+                "Banking liquidity",
+                "Credit dependency"
+            ],
+
+            primaryIndicators: [
+                "Government spending state",
+                "Programme liquidity state",
+                "Corporate liquidity condition",
+                "Banking liquidity condition",
+                "Credit condition"
+            ],
+
+            states: {
+                GREEN:
+                    "Government spending conditions remain within " +
+                    "the simulation baseline.",
+
+                YELLOW:
+                    "Moderate programme or spending pressure is simulated.",
+
+                ORANGE:
+                    "Material liquidity effects are simulated.",
+
+                RED:
+                    "Severe spending pressure with banking liquidity " +
+                    "and credit dependencies is simulated."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "LIQUIDITY"
+                ],
+
+                ORANGE: [
+                    "LIQUIDITY",
+                    "CREDIT"
+                ],
+
+                RED: [
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Monitor simulated liquidity effects.",
+                "Review corporate and banking liquidity dependencies.",
+                "Assess credit propagation.",
+                "Run controlled fiscal-liquidity cascade."
+            ]
+        },
+
+        "FIN-FISCAL-005": {
+
+            id: "FIN-FISCAL-005",
+
+            name:
+                "Tax Refund / Corporate Liquidity Stress",
+
+            category:
+                "FISCAL_CORPORATE",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate delayed or pressured fiscal refund flows " +
+                "and their potential corporate and banking liquidity " +
+                "dependencies.",
+
+            scenario:
+                "Controlled simulation of tax-refund or government-" +
+                "payment timing pressure affecting corporate liquidity.",
+
+            evaluates: [
+                "Tax refund condition",
+                "Corporate liquidity",
+                "Banking liquidity",
+                "Credit dependency",
+                "Payment dependency"
+            ],
+
+            primaryIndicators: [
+                "Tax refund state",
+                "Corporate liquidity condition",
+                "Banking liquidity condition",
+                "Credit condition",
+                "Payment condition"
+            ],
+
+            states: {
+                GREEN:
+                    "Refund conditions remain within the simulation baseline.",
+
+                YELLOW:
+                    "Moderate corporate liquidity pressure is simulated.",
+
+                ORANGE:
+                    "Material corporate and banking liquidity pressure " +
+                    "is simulated.",
+
+                RED:
+                    "Severe liquidity pressure with credit and payment " +
+                    "dependencies is simulated."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "LIQUIDITY"
+                ],
+
+                ORANGE: [
+                    "LIQUIDITY",
+                    "CREDIT"
+                ],
+
+                RED: [
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "CORPORATE",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Monitor simulated corporate liquidity.",
+                "Review banking liquidity exposure.",
+                "Assess credit dependencies.",
+                "Simulate payment resilience measures."
+            ]
+        },
+
+        "FIN-FISCAL-006": {
+
+            id: "FIN-FISCAL-006",
+
+            name:
+                "Institutional Coordination Stress",
+
+            category:
+                "FISCAL_GOVERNANCE",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate institutional coordination pressure affecting " +
+                "financial resilience dependencies.",
+
+            scenario:
+                "Controlled simulation of delayed or fragmented " +
+                "institutional coordination during fiscal stress.",
+
+            evaluates: [
+                "Coordination condition",
+                "Information availability",
+                "Decision latency",
+                "Liquidity dependency",
+                "Payment dependency"
+            ],
+
+            primaryIndicators: [
+                "Coordination state",
+                "Information state",
+                "Decision latency state",
+                "Liquidity condition",
+                "Payment condition"
+            ],
+
+            states: {
+                GREEN:
+                    "Institutional coordination remains effective " +
+                    "within the simulation.",
+
+                YELLOW:
+                    "Minor coordination delay is simulated.",
+
+                ORANGE:
+                    "Material coordination delay is simulated with " +
+                    "financial-system dependencies.",
+
+                RED:
+                    "Severe coordination stress is simulated across " +
+                    "liquidity, credit, infrastructure and payments."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "LIQUIDITY"
+                ],
+
+                ORANGE: [
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "PAYMENTS"
+                ],
+
+                RED: [
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "INFRASTRUCTURE",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "GOVERNANCE",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "INFRASTRUCTURE",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Review coordination dependencies.",
+                "Assess information and decision latency.",
+                "Review liquidity and payment dependencies.",
+                "Run controlled multi-domain resilience simulation."
+            ]
+        },
+
+        "FIN-FISCAL-007": {
+
+            id: "FIN-FISCAL-007",
+
+            name:
+                "Fiscal → FX → Credit → Payments Cascade",
+
+            category:
+                "FISCAL_CASCADE",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate a controlled multi-domain fiscal-to-banking " +
+                "cascade.",
+
+            scenario:
+                "Controlled deterministic cascade model connecting " +
+                "fiscal pressure to FX, liquidity, credit and payment " +
+                "dependencies.",
+
+            evaluates: [
+                "Fiscal stress",
+                "FX stress",
+                "Liquidity stress",
+                "Credit stress",
+                "Capital dependency",
+                "Payment-system dependency"
+            ],
+
+            primaryIndicators: [
+                "Fiscal stress state",
+                "FX condition",
+                "Liquidity condition",
+                "Credit condition",
+                "Capital condition",
+                "Payment condition"
+            ],
+
+            states: {
+                GREEN:
+                    "No material cascade is simulated.",
+
+                YELLOW:
+                    "Initial fiscal-to-FX propagation is simulated.",
+
+                ORANGE:
+                    "Fiscal, FX, liquidity and credit propagation is simulated.",
+
+                RED:
+                    "Full fiscal-to-FX-to-credit-to-payments cascade " +
+                    "is simulated."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "FISCAL",
+                    "FX"
+                ],
+
+                ORANGE: [
+                    "FISCAL",
+                    "FX",
+                    "LIQUIDITY",
+                    "CREDIT"
+                ],
+
+                RED: [
+                    "FISCAL",
+                    "FX",
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "FX",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Observe the complete simulated cascade path.",
+                "Verify each dependency stage.",
+                "Assess liquidity, credit and capital propagation.",
+                "Simulate payment resilience measures.",
+                "Record the cascade for V&V and audit."
+            ],
+
+            researchNotes: {
+                deterministic:
+                    true,
+
+                predictive:
+                    false,
+
+                cascadeInterpretation:
+                    "Cascade relationships represent controlled " +
+                    "simulation dependencies and do not establish " +
+                    "that one condition will inevitably cause another.",
+
+                executionBoundary:
+                    "Simulation only. No banking, market or external " +
+                    "system execution is permitted."
+            }
+        },
+
+        "FIN-FISCAL-008": {
+
+            id: "FIN-FISCAL-008",
+
+            name:
+                "Fiscal Credibility / Budget Sustainability Stress",
+
+            category:
+                "FISCAL_SUSTAINABILITY",
+
+            version:
+                "2.0.0",
+
+            purpose:
+                "Simulate sustained fiscal pressure and assess its " +
+                "potential financial-system resilience dependencies.",
+
+            scenario:
+                "Controlled simulation of persistent fiscal pressure " +
+                "and budget sustainability conditions.",
+
+            evaluates: [
+                "Fiscal sustainability",
+                "Liquidity dependency",
+                "FX dependency",
+                "Credit dependency",
+                "Capital dependency",
+                "Payment dependency"
+            ],
+
+            primaryIndicators: [
+                "Fiscal sustainability state",
+                "Liquidity condition",
+                "FX condition",
+                "Credit condition",
+                "Capital condition",
+                "Payment condition"
+            ],
+
+            states: {
+                GREEN:
+                    "Fiscal sustainability remains within the " +
+                    "controlled simulation baseline.",
+
+                YELLOW:
+                    "Emerging fiscal sustainability pressure is simulated.",
+
+                ORANGE:
+                    "Material sustained fiscal pressure is simulated.",
+
+                RED:
+                    "Severe sustained fiscal pressure with broad " +
+                    "financial-system dependencies is simulated."
+            },
+
+            cascades: {
+                GREEN: [],
+
+                YELLOW: [
+                    "LIQUIDITY"
+                ],
+
+                ORANGE: [
+                    "FX",
+                    "LIQUIDITY",
+                    "CREDIT"
+                ],
+
+                RED: [
+                    "FX",
+                    "LIQUIDITY",
+                    "CREDIT",
+                    "CAPITAL",
+                    "PAYMENTS"
+                ]
+            },
+
+            affectedDomains: [
+                "FISCAL",
+                "FX",
+                "LIQUIDITY",
+                "CREDIT",
+                "CAPITAL",
+                "PAYMENTS"
+            ],
+
+            contingencyActions: [
+                "Monitor sustained fiscal-resilience conditions.",
+                "Review FX and liquidity dependencies.",
+                "Assess credit and capital propagation.",
+                "Simulate payment-system resilience.",
+                "Repeat the scenario for deterministic V&V."
+            ],
+
+            researchNotes: {
+                deterministic:
+                    true,
+
+                predictive:
+                    false,
+
+                budgetInterpretation:
+                    "This scenario evaluates controlled resilience " +
+                    "conditions and does not forecast fiscal outcomes.",
+
+                executionBoundary:
+                    "Simulation only. No fiscal, banking or market " +
+                    "action is executed."
+            }
+        },
